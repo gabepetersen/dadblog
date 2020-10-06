@@ -2,13 +2,13 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { GetStaticProps } from 'next';
 import Layout, { siteTitle } from '../components/layout';
-import Date from '../components/date';
+import CustomDate from '../components/custom-date';
 import { getSortedPostsData } from '../lib/posts';
 
 import utilStyles from '../styles/utils.module.scss';
 
 export default function Home({ allPostsData }:
-  { allPostsData: {id: string, date: string, title: string}[] }
+  { allPostsData: {id: string, date: number, title: string}[] }
 ) {
   return (
     <Layout home>
@@ -36,7 +36,7 @@ export default function Home({ allPostsData }:
                 </Link>
                 <br />
                 <small>
-                  <Date dateString={date} />
+                  <CustomDate ms={date} />
                 </small>
               </li>
             ))}
@@ -50,6 +50,7 @@ export default function Home({ allPostsData }:
     </Layout>
   )
 }
+
 
 // Get static props will get the blog posts on static generation pre-render
 export const getStaticProps: GetStaticProps = async () => {

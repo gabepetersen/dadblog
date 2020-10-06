@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import styles from './create.module.scss';
 
 var blogText: string = '';
@@ -16,6 +18,8 @@ export default function Create() {
         <textarea id="btext" name="btext" onChange={handleText}></textarea><br />
         <input type="submit" value="Submit" />
       </form>
+      <br />
+      <Link href="/"><a>Back To Home</a></Link>
     </>
   );
 }
@@ -31,7 +35,7 @@ async function handleSubmit(event) {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify({ title: blogTitle, text: blogText })
+      body: JSON.stringify({ title: blogTitle, text: blogText, username: 'gabepetersen' })
     }).then(x => x.json());
     console.log(data);
   } catch (err) {

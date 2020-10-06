@@ -3,37 +3,50 @@ import fs from 'fs';
 import path from 'path';
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
-  const postsDirectory = path.join(process.cwd(), 'posts');
-  // I love ES6 babbyyyyyy
-  const { title, text } = req.body.json();
+  try {
+    const postsDirectory = path.join(process.cwd(), 'posts');
+    // I love ES6 babbyyyyyy
+    const { title, text, username } = req.body;
 
-  // create url id / filename
-  const url = title.toLowerCase().replace(' ', '-');
-  // check to see if unique title
-  const fileNames = fs.readdirSync(postsDirectory);
-  fileNames.forEach((filename) => {
-    // get ride of .md
-    if (filename.replace(/\.md$/, '') == url) {
-      res.status(400).json({ text: 'Title already exists' });
-      return;
+    if (username !== 'gabepetersen') {
+      // send unauth code
+      res.status(403).json({ text: 'unauthorized user' });
     }
-  });
-  // create write stream
-  const fileStream = fs.createWriteStream(('../posts/' + url + '.md'));
-  // write to the md file
-  fileStream.write('---\r\n');
-  fileStream.write('title: \'' + title + '\'\r\n');
-  fileStream.write('date: \'' + new Date() + '\'\r\n');
-  fileStream.write('---\r\n\r\n');
-  fileStream.write(text);
-  // create finish event callback
-  fileStream.on('finish', () => {
-    res.status(200).json({ text: 'Blog Successfully Uploaded' })
-  });
-  // create errror event callback
-  fileStream.on('error', (err) => {
-    res.status(401).json({ text: `Error in Callback: ${err}` })
-  })
 
+    console.log(postsDirectory);
+
+    // create url id / filename with replacing spaces
+    const url = title.toLowerCase().replace(/ /g, '-');
+    // check to see if unique title
+    const fileNames = fs.readdirSync(postsDirectory);
+    fileNames.forEach((filename) => {
+      // check if post already exists
+      if (filename.replace(/\.md$/, '') == url) {
+        // send not acceptable if post exists already
+        res.status(406).json({ text: 'Title already exists' });
+        return;
+      }
+    });
+    // create write stream
+    const fileStream = fs.createWriteStream((postsDirectory + '/' + url + '.md'));
+    fileStream.write('---\r\n');
+    fileStream.write('title: \'' + title + '\'\r\n');
+    fileStream.write('date: ' + Date.now() + '\r\n');
+    fileStream.write('---\r\n\r\n');
+    fileStream.write(text);
+    fileStream.end();
+    // create finish event callback - send created code
+    fileStream.on('finish', () => {
+      res.status(201).json({ text: 'Blog Successfully Uploaded' });
+      return;
+    });
+    // create errror event callback
+    fileStream.on('error', (err) => {
+      res.status(400).json({ text: `Error in Writing File: ${err}` });
+      return;
+    })
+  } catch (err) {
+    res.status(400).json({ text: `Error in Request: ${err}` });
+  }
 }
 

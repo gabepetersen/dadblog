@@ -1,0 +1,47 @@
+@import '../styles/global.scss';
+
+.toast_container {
+  position: fixed;
+  z-index: 1; /* Add a z-index if needed */
+  bottom: 10px; /* 30px from the bottom */
+  left: 0;
+  width: 100%;
+}
+/* The container for the actual message */
+.toast_message_container {
+  padding: 4px;
+  text-align: center; 
+  animation: SlideInOut 5s ease-in-out;
+  max-width: 400px; 
+  background-color: $color-green-4;
+  margin: 0 auto;
+  display: flex;
+  border-radius: 24px; 
+}
+/* The actual message */
+.toast {
+  padding: 16px; 
+  flex: 1;
+  color: #222222; 
+  background-color: #ffffff;
+  border-radius: 20px; 
+}
+
+@keyframes SlideInOut {
+  0%{
+    transform: translateY(0);
+    opacity: 0;
+  }
+  15% {
+    transform: translateY(-20px);
+    opacity: 1;
+  }
+  85% {
+    transform: translateY(-20px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 0;
+  }
+}

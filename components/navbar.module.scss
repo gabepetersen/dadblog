@@ -1,0 +1,45 @@
+@import '../styles/global.scss';
+
+.menu, .submenu {
+  list-style-type: none;
+  padding: 0;
+  & a:link {
+    text-decoration: none;
+  }
+  // all of the list item links
+  & li a {
+    display: block;
+    padding: 10px;
+    color: $text-medium-1;
+  }
+  // styles for all of the list item links besides the menu-title
+  & li:not(.menu_title) a:hover  {
+    border-bottom: 1px solid $color-green-3;
+    color: $text-medium-2;
+  }
+}
+// 
+.menu {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  /* Align Items on Flex Main Axis */
+  justify-content: space-around;
+  /* Vertically Center Items */
+  align-items: baseline;
+  /* gap between inner elements */
+  gap: 10px;
+}
+.submenu {
+  display: none;
+  position: absolute;
+}
+.menu_title {
+  /* Shorthand for flex-grow, flex-shrink, and flex-basis */
+  flex: 2 1 100px;
+}
+.dropdown {
+  &:hover .submenu {
+    display: block;
+  }
+}

@@ -1,12 +1,14 @@
 import Head from 'next/head';
 import Link from 'next/link';
 
+import Navbar from './navbar';
+
 import styles from './layout.module.scss';
 import utilStyles from '../styles/utils.module.scss';
 
 const name = 'Gabe Petersen';
 
-export const siteTitle = 'Gabe\'s Blog'
+export const siteTitle = 'Dad\'s Blog'
 
 export default function Layout({ children, home }: {children: React.ReactNode, home?: boolean}) {
   return (
@@ -22,6 +24,9 @@ export default function Layout({ children, home }: {children: React.ReactNode, h
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
+
+      {/* Inserts NavBar on Every Page */}
+      <Navbar home={home} ></Navbar>
 
       {/* Displays Header as Link Conditionally */}
       <header className={styles.header}>

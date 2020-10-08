@@ -22,7 +22,26 @@ $color-yellow-2: #F0F384;
 $color-yellow-3: #A8AB2E;
 $color-yellow-4: #81840F;
 
+// Text Themes
+$text-light-2: #999999;
+$text-light-1: #777777;
+$text-medium-2: #555555;
+$text-medium-1: #333333;
+$text-dark-2: #111111;
+$text-dark-1: #000000;
 
-.cool-color {
-  color: $primary-color;
+
+// font declarations
+@font-face {
+  font-family: "Sarabun-Regular";
+  src: local("Sarabun-Regular"),
+    url("../fonts/Sarabun-Regular.ttf") format("truetype");
+  font-weight: normal;
 }
+@font-face {
+  font-family: "PlayfairDisplay-Regular";
+  src: local("PlayfairDisplay-Regular"),
+    url("../fonts/static/PlayfairDisplay-Regular.ttf") format("truetype");
+  font-weight: normal;
+}
+

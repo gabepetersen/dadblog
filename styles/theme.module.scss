@@ -1,0 +1,25 @@
+// More themes
+$theme-green: #4b7f52ff;
+$theme-yellow: #ffd639ff;
+$theme-white: #f5f5f5ff;
+$theme-lightgray: #c6d3c7;
+$theme-gray: #5d635d;
+$theme-black: #161718;
+
+// set default styles
+#light {
+  --color-page-background: #{$theme-white};
+  --color-text: #{$theme-black};
+  --color-subtext: #{$theme-gray};
+  --color-shadow: #{$theme-lightgray};
+  --color-accent: #{$theme-green};
+}
+
+// set dark mode styles
+#dark {
+  --color-page-background: #{$theme-black};
+  --color-text: #{$theme-white};
+  --color-subtext: #{$theme-lightgray};
+  --color-shadow: #{$theme-gray};
+  --color-accent: #{$theme-yellow};
+}

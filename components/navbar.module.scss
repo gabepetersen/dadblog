@@ -1,6 +1,8 @@
 @import '../styles/global.scss';
+@import '../styles/theme.module.scss';
 
-.menu, .submenu {
+
+.menu {
   list-style-type: none;
   padding: 0;
   & a:link {
@@ -10,15 +12,14 @@
   & li a {
     display: block;
     padding: 10px;
-    color: $text-medium-1;
+    color: $theme-black;
   }
   // styles for all of the list item links besides the menu-title
   & li:not(.menu_title) a:hover  {
-    border-bottom: 1px solid $color-green-3;
-    color: $text-medium-2;
+    border-bottom: 1px solid $theme-green;
   }
 }
-// 
+// main nav menu
 .menu {
   display: flex;
   flex-direction: row;
@@ -30,16 +31,25 @@
   /* gap between inner elements */
   gap: 10px;
 }
-.submenu {
-  display: none;
-  position: absolute;
-}
 .menu_title {
   /* Shorthand for flex-grow, flex-shrink, and flex-basis */
-  flex: 2 1 100px;
+  flex: 2 1 200px;
 }
-.dropdown {
-  &:hover .submenu {
-    display: block;
+
+
+/**
+ *
+ * Media Query Section
+ *
+ */
+
+@media #{$large-phone} {
+  // Wrap the Links on Mobile
+  .menu {
+    flex-wrap: wrap;
+    text-align: center;
+  }
+  .menu_title {
+    flex: 1 1 100%;
   }
 }

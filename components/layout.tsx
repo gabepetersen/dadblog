@@ -2,17 +2,31 @@ import Head from 'next/head';
 import Link from 'next/link';
 
 import Navbar from './navbar';
+import { getThemeController } from '../components/theme';
 
 import styles from './layout.module.scss';
 import utilStyles from '../styles/utils.module.scss';
+import themeStyles from '../styles/theme.module.scss';
+import dark from '../styles/dark.module.scss';
+import light from '../styles/light.module.scss';
 
-const name = 'Gabe Petersen';
+const name = 'Blog Master';
 
-export const siteTitle = 'Dad\'s Blog'
+export const siteTitle = 'This is a Blog!'
 
-export default function Layout({ children, home }: {children: React.ReactNode, home?: boolean}) {
+var isDark: boolean = false;
+
+const cn = arr => arr.filter(Boolean).join(' ');
+
+
+export default function Layout({ children, home }: { children: React.ReactNode, home?: boolean }) {
+
+  // get the theme state and function to change it
+  const [theme, setTheme] = getThemeController();
+  var isDark = theme === 'dark';
+
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${isDark ? dark.theme : light.theme}`} id="light">
       {/* Head tag for meta stuff */}
       <Head>
         <link rel="icon" href="/favicon.ico" />
@@ -25,8 +39,13 @@ export default function Layout({ children, home }: {children: React.ReactNode, h
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
 
+      {/* button to control dark and light theme */}
+      <button onClick={() => {
+        setTheme(isDark ? 'light' : 'dark');
+      }}>Toggle Theme</button>
+
       {/* Inserts NavBar on Every Page */}
-      <Navbar home={home} ></Navbar>
+      <Navbar home={home}></Navbar>
 
       {/* Displays Header as Link Conditionally */}
       <header className={styles.header}>

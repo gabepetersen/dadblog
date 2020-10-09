@@ -1,8 +1,11 @@
+@import '../styles/global.scss';
+
 .container {
   max-width: 40rem;
   padding: 0 1rem;
-  margin: 3rem auto 6rem;
+  margin: 3rem auto 6rem auto;
   font-family: PlayfairDisplay-Regular;
+  background-color: var(--color-page-background);
 }
 
 .header {
@@ -24,4 +27,16 @@
 
 .backToHome {
   margin: 3rem 0 0;
+}
+
+/**
+ *
+ * Media Query Section
+ *
+ */
+
+@media #{$large-phone} {
+  .container {
+    margin: 2rem auto 4rem auto;
+  }
 }

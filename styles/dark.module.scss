@@ -1,0 +1,9 @@
+@import './theme.module.scss';
+
+.theme {
+  --color-page-background: #{$theme-black};
+  --color-text: #{$theme-white};
+  --color-subtext: #{$theme-lightgray};
+  --color-shadow: #{$theme-gray};
+  --color-accent: #{$theme-yellow};
+}

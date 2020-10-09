@@ -22,6 +22,7 @@ $color-yellow-2: #F0F384;
 $color-yellow-3: #A8AB2E;
 $color-yellow-4: #81840F;
 
+
 // Text Themes
 $text-light-2: #999999;
 $text-light-1: #777777;
@@ -29,6 +30,12 @@ $text-medium-2: #555555;
 $text-medium-1: #333333;
 $text-dark-2: #111111;
 $text-dark-1: #000000;
+
+// media query variables
+$small-phone: "screen and (max-width : 320px)";
+$medium-phone: "screen and (max-width: 400px)";
+$large-phone: "screen and (max-width: 500px)";
+$tablet: "screen and (max-width: 1100px)";
 
 
 // font declarations

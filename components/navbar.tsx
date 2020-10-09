@@ -6,29 +6,7 @@ import utilStyles from '../styles/utils.module.scss';
 
 export default function Navbar({ home }: { home: boolean }) {
 
-  // animation variants for the unordered list
-  const nav_list = {
-    initial: {
-      opacity: 0,
-    },
-    animate: {
-      opacity: 1,
-      transition: {
-        when: "beforeChildren",
-        staggerChildren: 0.1,
-      },
-    },
-  }
-
-  // animation variants for the list items
-  const nav_item = {
-    initial: {
-      opacity: 0, y: -100
-    },
-    animate: {
-      opacity: 1, y: 0
-    }
-  }
+  const user = false;
   
   return (
     <nav>
@@ -49,17 +27,49 @@ export default function Navbar({ home }: { home: boolean }) {
           </a>
           </Link>
         </motion.li>
-        <motion.li variants={nav_item}><Link href="/">About</Link></motion.li>
-        <motion.li variants={nav_item}><Link href="/"><a>Blog</a></Link></motion.li>
-        <motion.li variants={nav_item} className={styles.dropdown}>
-          <Link href="/"><a>Channels</a></Link>
-          <ul className={styles.submenu}>
-            <li><Link href="/"><a>One</a></Link></li>
-            <li><Link href="/"><a>Two</a></Link></li>
-            <li><Link href="/"><a>Three</a></Link></li>
-          </ul>
-        </motion.li>
+        <motion.li variants={nav_item}><Link href="/">Articles</Link></motion.li>
+        <LoginControl user={user}></LoginControl>
       </motion.ul>
     </nav>
   );
+}
+
+/**
+ * LoginControl returns sign in or sign out based on if the user is logged in
+ * @param user tells if the user is logged in or not
+ */
+function LoginControl({ user }: { user: boolean }) {
+  if (user) {
+    return (
+      <motion.li variants={nav_item}><Link href="/"><a>Sign Out</a></Link></motion.li>
+    );
+  } else {
+    return (
+      <motion.li variants={nav_item}><Link href="/"><a>Login</a></Link></motion.li>
+    );
+  }
+}
+
+// animation variants for the unordered list
+const nav_list = {
+  initial: {
+    opacity: 0,
+  },
+  animate: {
+    opacity: 1,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.1,
+    },
+  },
+}
+
+// animation variants for the list items
+const nav_item = {
+  initial: {
+    opacity: 0, y: -100
+  },
+  animate: {
+    opacity: 1, y: 0
+  }
 }

@@ -1,6 +1,6 @@
 /**
  * Big Thank you goes out to github user @Ifades
- * github repo: 
+ * github repo: https://github.com/lfades/static-tweet
  */
 
 import React from 'react';

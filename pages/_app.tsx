@@ -21,6 +21,13 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
       }}>
         <Component {...pageProps} />
       </motion.div>
+
+      {/* Need some global style tags */}
+      <style jsx global>{`
+        body {
+          margin: 0;
+        }
+      `}</style>
     </AnimatePresence>
   );
 }

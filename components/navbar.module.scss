@@ -12,11 +12,11 @@
   & li a {
     display: block;
     padding: 10px;
-    color: $theme-black;
+    color: var(--color-text);
   }
   // styles for all of the list item links besides the menu-title
   & li:not(.menu_title) a:hover  {
-    border-bottom: 1px solid $theme-green;
+    border-bottom: 1px solid var(--color-accent);
   }
 }
 // main nav menu

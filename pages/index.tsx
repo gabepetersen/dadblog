@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import Layout, { siteTitle } from '../components/layout';
 import CustomDate from '../components/custom-date';
 import { ToastContainer, ToastController } from '../components/toast';
-import { ThemeProvider } from '../components/theme';
+import { ThemeProvider } from '../components/theme-provider';
 import { getSortedPostsData } from '../lib/posts';
 
 import utilStyles from '../styles/utils.module.scss';

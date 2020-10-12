@@ -11,13 +11,12 @@ import { ThemeProvider } from '../components/theme-provider';
 import { getSortedPostsData } from '../lib/posts.service';
 
 import utilStyles from '../styles/utils.module.scss';
-import indexStyles from './index.module.scss'
+import styles from './index.module.scss'
 
 export default function Home({ allPostsData }:
   { allPostsData: {id: string, date: number, title: string}[] }
 ) {
   return (    
-    <ThemeProvider theme="light">
       <Layout home>
         <Head>
           <title>{siteTitle}</title>
@@ -26,8 +25,7 @@ export default function Home({ allPostsData }:
         <section className={utilStyles.headingMd}>
           <p>
             Hello! My name is Gabe and I want to die. If you would like to kill me, 
-            please email me at <a href="mailto:gabeardenpetersen@gmail.com">gabeardenpetersen@gmail.com</a> 
-            for more information.
+            please email me at <a href="mailto:gabeardenpetersen@gmail.com">gabeardenpetersen@gmail.com</a> for more information.
           </p>
           <p>
             (This is a sample website - you’ll be building a site like this on{' '}
@@ -51,7 +49,7 @@ export default function Home({ allPostsData }:
               ))}
           </ul>
         </section>
-        <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+        <section className={`${utilStyles.headingMd} ${utilStyles.padding1px} ${styles.no_margin}`}>
           <Link href="/create">
             <a>Create a Post</a>
           </Link>
@@ -61,7 +59,6 @@ export default function Home({ allPostsData }:
           <ToastContainer />
         </section>
       </Layout>
-    </ThemeProvider>
   )
 }
 

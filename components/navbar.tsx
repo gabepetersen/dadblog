@@ -35,7 +35,7 @@ export default function Navbar({ home }: { home: boolean }) {
         </motion.li>
         <motion.li variants={nav_item}>
           <Button style="primary" callback={() => setTheme(theme == 'dark' ? 'light' : 'dark')}>
-            {theme == 'dark' ? 'Night Mode' : 'Day Mode'}
+            {theme == 'dark' ? 'Day Mode' : 'Night Mode'}
           </Button>
         </motion.li>
         <motion.li variants={nav_item}><Link href="/">Articles</Link></motion.li>

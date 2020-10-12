@@ -1,12 +1,16 @@
 @import '../styles/global.scss';
 
 .container {
-  max-width: 40rem;
-  padding: 0 1rem;
+  max-width: 100%;
+  padding: 0 1rem 2rem 1rem;
   // margin: 3rem auto 6rem auto;
   font-family: PlayfairDisplay-Regular;
   background-color: var(--color-page-background);
   color: var(--color-text);
+  // color smooth on theme toggle
+  -webkit-transition: 1s ease-in;
+  -ms-transition: 1s ease-in;
+  transition: 1s ease-in;
 }
 
 .header {
@@ -26,6 +30,11 @@
   height: 8rem;
 }
 
+.main {
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
 .backToHome {
   margin: 3rem 0 0;
 }
@@ -35,6 +44,11 @@
  * Media Query Section
  *
  */
+@media #{$tablet} {
+  .main {
+    max-width: 40rem;
+  }
+}
 
 @media #{$large-phone} {
   .container {

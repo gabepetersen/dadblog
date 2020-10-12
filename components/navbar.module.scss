@@ -21,6 +21,8 @@
 }
 // main nav menu
 .menu {
+  width: 80%;
+  margin: 0 auto;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -42,7 +44,11 @@
  * Media Query Section
  *
  */
-
+@media #{$tablet} {
+  .menu {
+    width: 100%;
+  }
+}
 @media #{$large-phone} {
   // Wrap the Links on Mobile
   .menu {

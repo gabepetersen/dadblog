@@ -19,10 +19,10 @@ export const siteTitle = 'This is a Blog!'
 export default function Layout({ children, home }: { children: React.ReactNode, home?: boolean }) {
 
   // get the theme state and function to change it
-  const [theme, setTheme] = getThemeController();
+  const [theme] = getThemeController();
 
   return (
-    <div className={`${styles.container} ${theme == 'light' ? dark.theme : light.theme}`} id="light">
+    <div className={`${styles.container} ${theme == 'dark' ? dark.theme : light.theme}`} id="light">
       {/* Head tag for meta stuff */}
       <Head>
         <link rel="icon" href="/favicon.ico" />
@@ -70,7 +70,9 @@ export default function Layout({ children, home }: { children: React.ReactNode, 
       </header>
 
       {/* Main Content of Page */}
-      <main>{children}</main>
+      <main className={styles.main}>
+        {children}
+      </main>
 
       {/* Conditional Back Link */} 
       {!home && (

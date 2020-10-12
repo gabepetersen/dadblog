@@ -1,12 +1,14 @@
+// external imports
 import Head from 'next/head';
 import Link from 'next/link';
 
+// component imports
 import Navbar from './navbar';
-import { getThemeController } from '../components/theme-provider';
+import { getThemeController } from './theme-provider';
 
+// style imports
 import styles from './layout.module.scss';
 import utilStyles from '../styles/utils.module.scss';
-import themeStyles from '../styles/theme.module.scss';
 import dark from '../styles/dark.module.scss';
 import light from '../styles/light.module.scss';
 
@@ -14,19 +16,13 @@ const name = 'Blog Master';
 
 export const siteTitle = 'This is a Blog!'
 
-var isDark: boolean = false;
-
-const cn = arr => arr.filter(Boolean).join(' ');
-
-
 export default function Layout({ children, home }: { children: React.ReactNode, home?: boolean }) {
 
   // get the theme state and function to change it
   const [theme, setTheme] = getThemeController();
-  var isDark = theme === 'dark';
 
   return (
-    <div className={`${styles.container} ${isDark ? dark.theme : light.theme}`} id="light">
+    <div className={`${styles.container} ${theme == 'light' ? dark.theme : light.theme}`} id="light">
       {/* Head tag for meta stuff */}
       <Head>
         <link rel="icon" href="/favicon.ico" />
@@ -38,11 +34,6 @@ export default function Layout({ children, home }: { children: React.ReactNode, 
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-
-      {/* button to control dark and light theme */}
-      <button onClick={() => {
-        setTheme(isDark ? 'light' : 'dark');
-      }}>Toggle Theme</button>
 
       {/* Inserts NavBar on Every Page */}
       <Navbar home={home}></Navbar>

@@ -8,7 +8,7 @@ import Layout, { siteTitle } from '../components/layout';
 import CustomDate from '../components/custom-date';
 import { ToastContainer, ToastController } from '../components/toast';
 import { ThemeProvider } from '../components/theme-provider';
-import { getSortedPostsData } from '../lib/posts';
+import { getSortedPostsData } from '../lib/posts.service';
 
 import utilStyles from '../styles/utils.module.scss';
 import indexStyles from './index.module.scss'

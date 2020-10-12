@@ -1,10 +1,16 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
+import { getThemeController } from './theme-provider';
+import Button from './button';
+
 import styles from './navbar.module.scss';
 import utilStyles from '../styles/utils.module.scss';
 
 export default function Navbar({ home }: { home: boolean }) {
+
+  // get the theme state and function to change it
+  const [theme, setTheme] = getThemeController();
 
   const user = false;
   
@@ -27,8 +33,15 @@ export default function Navbar({ home }: { home: boolean }) {
           </a>
           </Link>
         </motion.li>
+        <motion.li variants={nav_item}>
+          <Button style="primary" callback={() => setTheme(theme == 'dark' ? 'light' : 'dark')}>
+            {theme == 'dark' ? 'Night Mode' : 'Day Mode'}
+          </Button>
+        </motion.li>
         <motion.li variants={nav_item}><Link href="/">Articles</Link></motion.li>
-        <LoginControl user={user}></LoginControl>
+        <motion.li variants={nav_item}>
+          <LoginControl user={user}></LoginControl>
+        </motion.li>
       </motion.ul>
     </nav>
   );
@@ -39,15 +52,8 @@ export default function Navbar({ home }: { home: boolean }) {
  * @param user tells if the user is logged in or not
  */
 function LoginControl({ user }: { user: boolean }) {
-  if (user) {
-    return (
-      <motion.li variants={nav_item}><Link href="/"><a>Sign Out</a></Link></motion.li>
-    );
-  } else {
-    return (
-      <motion.li variants={nav_item}><Link href="/"><a>Login</a></Link></motion.li>
-    );
-  }
+  // just have this placeholder here for now
+  return ( user ? <Link href="/"><a>Sign Out</a></Link> : <Link href="/"><a>Login</a></Link> ) 
 }
 
 // animation variants for the unordered list

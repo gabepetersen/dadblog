@@ -1,0 +1,10 @@
+.primary {
+  color: var(--color-text);
+  background-color: var(--color-page-background);
+  border: 2px solid var(--color-primary-accent);
+}
+.secondary {
+  color: var(--color-page-background);
+  background-color: var(--color-primary-accent);
+  border: 2px solid var(--color-subtext);
+}

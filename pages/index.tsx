@@ -9,6 +9,8 @@ import CustomDate from '../components/custom-date';
 import { ToastContainer, ToastController } from '../components/toast';
 import { ThemeProvider } from '../components/theme-provider';
 import { getSortedPostsData } from '../lib/posts.service';
+import { modal } from '../components/modal';
+import Button from '../components/button';
 
 import utilStyles from '../styles/utils.module.scss';
 import styles from './index.module.scss'
@@ -16,12 +18,26 @@ import styles from './index.module.scss'
 export default function Home({ allPostsData }:
   { allPostsData: {id: string, date: number, title: string}[] }
 ) {
+
   return (    
       <Layout home>
         <Head>
           <title>{siteTitle}</title>
         </Head>
-        
+
+        <section>
+          <Button style="primary" callback={() => {
+            modal.show()
+          }}>
+            Open Modal
+          </Button>
+          <Button style="primary" callback={() => {
+            modal.hide()
+          }}>
+            Close Modal
+          </Button>
+        </section>
+      
         <section className={utilStyles.headingMd}>
           <p>
             Hello! My name is Gabe and I want to die. If you would like to kill me, 

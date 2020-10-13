@@ -3,17 +3,17 @@ import dynamic from 'next/dynamic';
 import styles from './toast.module.scss';
 import ReactDOM from 'react-dom';
 
-const Toast = (props) => {
+function ToastMessage({children} : {children: React.ReactNode}) {
   return (
     <>   
       <div className={styles.toast_message_container}> 
-        <div className={styles.toast}>{props.msg}</div>
+        <div className={styles.toast}>{children}</div>
       </div>
     </>
   )
 }
 
-export const ToastContainer = (props) => {
+export function ToastContainer() {
   return (
     <div id="toast_container" className={styles.toast_container}></div>
   )
@@ -52,7 +52,7 @@ export const ToastController = {
     // check validity of toast controller
     if (document.getElementById('toast_container')) {
       ReactDOM.render(
-        <Toast msg={msg}></Toast>, document.getElementById('toast_container')
+        <ToastMessage>msg</ToastMessage>, document.getElementById('toast_container')
       );
       // set deletion timeout to 5 seconds for now
       ToastController.timeout = setTimeout(ToastController.delete, 5000);

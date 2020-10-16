@@ -88,6 +88,7 @@ function checkLogin() {
       console.log("window doesn't exist")
     }
   }
+  
 }
 
 

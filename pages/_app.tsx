@@ -27,6 +27,10 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
         <style jsx global>{`
           body {
             margin: 0 auto;
+            height: 100%;
+          }
+          html {
+            height: 100%;
           }
         `}</style>
       </AnimatePresence>

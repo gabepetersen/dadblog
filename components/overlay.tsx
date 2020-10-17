@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Alert from './alert';
 
 // Big thank you goes out to Jeremy Gillick on this solution
-// I have no idea if this is good practice or not - but it is a nice short term solution
+// THIS DOESN'T WORK IGNORE THIS FOR LATER
 // https://stackoverflow.com/questions/51662609/react-programmatically-opening-modals-and-cleaning-up-automatically
 
 export const overlay = {

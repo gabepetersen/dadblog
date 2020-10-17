@@ -38,7 +38,7 @@ export default function Navbar({ home }: { home: boolean }) {
             {theme == 'dark' ? 'Day Mode' : 'Night Mode'}
           </Button>
         </motion.li>
-        <motion.li variants={nav_item}><Link href="/">Articles</Link></motion.li>
+        <motion.li variants={nav_item}><Link href="/articles">Articles</Link></motion.li>
         <motion.li variants={nav_item}>
           <LoginControl user={user}></LoginControl>
         </motion.li>
@@ -53,7 +53,7 @@ export default function Navbar({ home }: { home: boolean }) {
  */
 function LoginControl({ user }: { user: boolean }) {
   // just have this placeholder here for now
-  return ( user ? <Link href="/"><a>Sign Out</a></Link> : <Link href="/"><a>Login</a></Link> ) 
+  return ( user ? <Link href="/"><a>Sign Out</a></Link> : <Link href="/login"><a>Login</a></Link> ) 
 }
 
 // animation variants for the unordered list

@@ -1,15 +1,10 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
-import { GetStaticProps } from 'next';
-import { useEffect } from 'react';
 
 import Layout, { siteTitle } from '../components/layout';
-import CustomDate from '../components/custom-date';
+
 import { ToastContainer, ToastController } from '../components/toast';
-import { ThemeProvider } from '../components/theme-provider';
-import { getSortedPostsData } from '../lib/posts.service';
-import { modal } from '../components/modal';
+
 import Button from '../components/button';
 
 import utilStyles from '../styles/utils.module.scss';
@@ -24,63 +19,25 @@ export default function Home({ allPostsData }:
         <Head>
           <title>{siteTitle}</title>
         </Head>
-
-        <section>
-          <Button style="primary" callback={() => {
-            modal.show()
-          }}>
-            Open Modal
-          </Button>
-          <Button style="primary" callback={() => {
-            modal.hide()
-          }}>
-            Close Modal
-          </Button>
-        </section>
-      
+    
         <section className={utilStyles.headingMd}>
           <p>
-            Hello! My name is Gabe and I want to die. If you would like to kill me, 
-            please email me at <a href="mailto:gabeardenpetersen@gmail.com">gabeardenpetersen@gmail.com</a> for more information.
+            Hello! My name is Gabe, and this is my super cool blog. You can checkout my blogs by going to my <Link href="/articles"><a>Articles Page</a></Link>.
           </p>
           <p>
-            (This is a sample website - you’ll be building a site like this on{' '}
-              <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
+            Here is some other text, and some more - blah blah blah.
           </p>
           <button onClick={checkLogin}>Show Toast</button>
         </section>
-        <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-          <h2 className={utilStyles.headingLg}>Blog</h2>
-          <ul className={utilStyles.list}>
-            {allPostsData.map(({ id, date, title }) => (
-                <li className={utilStyles.listItem} key={id}>
-                  <Link href={`/posts/${id}`}>
-                    <a>{title}</a>
-                  </Link>
-                  <br />
-                  <small>
-                    <CustomDate ms={date} />
-                  </small>
-                </li>
-              ))}
-          </ul>
-        </section>
-        <section className={`${utilStyles.headingMd} ${utilStyles.padding1px} ${styles.no_margin}`}>
-          <Link href="/create">
-            <a>Create a Post</a>
-          </Link>
-        </section>
         {/* Need a Toast Container for Toasts */}
-        <section>
-          <ToastContainer />
-        </section>
+        <ToastContainer />
       </Layout>
   )
 }
 
 function checkLogin() {
   var loggedIn = true;
-  var message = 'I like big booty!';
+  var message = 'Here is a toast for you!!!';
   if (loggedIn) {
     if (typeof window !== 'undefined') {
       ToastController.show(message);
@@ -88,18 +45,9 @@ function checkLogin() {
       console.log("window doesn't exist")
     }
   }
-  
+
 }
 
 
-// Get static props will get the blog posts on static generation pre-render
-export const getStaticProps: GetStaticProps = async () => {
-  const allPostsData = getSortedPostsData();
-  return {
-    props: {
-      allPostsData
-    }
-  }
-}
 
 

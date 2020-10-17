@@ -52,7 +52,7 @@ export const ToastController = {
     // check validity of toast controller
     if (document.getElementById('toast_container')) {
       ReactDOM.render(
-        <ToastMessage>msg</ToastMessage>, document.getElementById('toast_container')
+        <ToastMessage>{msg}</ToastMessage>, document.getElementById('toast_container')
       );
       // set deletion timeout to 5 seconds for now
       ToastController.timeout = setTimeout(ToastController.delete, 5000);

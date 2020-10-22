@@ -7,10 +7,13 @@ var jwt = require('jsonwebtoken');
 
 var userSchema = new mongoose.Schema({
   // You will have to specify a UUID to put as a user
-  userid: {
+  role: {
     type: String,
-    unique: true,
-    required: true
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
   },
   email: {
     type: String,
@@ -44,24 +47,27 @@ userSchema.methods.validPassword = function(password) {
   return this.hash === hash;
 };
 
-userSchema.methods.generateJwt = function() {
+userSchema.methods.generateJWT = function() {
   var expiry = new Date();
-  expiry.setDate(expiry.getDate() + 7);
+  expiry.setDate(expiry.getDate() + 3);
 
   return jwt.sign({
     _id: this._id,
     email: this.email,
     name: this.name,
     exp: expiry.getTime() / 1000,
-  }, 'secret'); // DO NOT KEEP YOUR SECRET IN THE CODE!
+  }, process.env.JWT_SECRET); // DO NOT KEEP YOUR SECRET IN THE CODE!
 };
 
-userSchema.methods.toAuthJSON = function() {
-  return {
-    userid: this.userid,
-    email: this.email,
-    token: this.generateJwt()
-  };
+userSchema.methods.validateJWT = function (token) {
+  try {
+    // verify token with the environment variable secret
+    return jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    console.error("Invalid Token");
+    return null;
+  }
 }
+
 const UserModel = mongoose.model('User', userSchema)
 export default UserModel;

@@ -9,6 +9,7 @@ export default function Login() {
   // Ok this is really messy but IT WILL HAVE TO WORK FOR NOW
   const emailLogin = newFormField();
   const passwordLogin = newFormField();
+  const nameSignup = newFormField();
   const emailSignup = newFormField();
   const password1Signup = newFormField();
   const password2Signup = newFormField();
@@ -20,7 +21,7 @@ export default function Login() {
     ToastController.show("logging in...");
     // Handle login in auth service
     const res = await apiLogin(emailLogin.value, passwordLogin.value);
-    console.log(res);
+    console.log('Login Result: ', res);
   
   }
   
@@ -32,8 +33,8 @@ export default function Login() {
     if (password1Signup.value == password2Signup.value) {
       // handy little email validation from: https://www.w3resource.com/javascript/form/email-validation.php
       if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(emailSignup.value)) {
-        const res = await apiSignup(emailSignup.value, password1Signup.value);
-        console.log("signup result: ", res);
+        const res = await apiSignup(nameSignup.value, emailSignup.value, password1Signup.value);
+        console.log("Signup Result: ", res);
       } else {
         console.log('invalid email');
         ToastController.show('Email is Not Valid!');
@@ -76,6 +77,14 @@ export default function Login() {
         <h2>Signup</h2>
         <div className={styles.signup}>
           <form onSubmit={handleSignup}>
+            <label htmlFor="name">Name</label><br />
+            <input
+              type="text"
+              id="name"
+              name="name"
+              {...nameSignup}
+            />
+            <br />
             <label htmlFor="email">Email</label><br />
             <input
               type="text"

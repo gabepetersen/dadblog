@@ -7,7 +7,7 @@ export default async function connectDB() {
   var connectionString: string;
 
   console.log("Here is my environment: ", process.env.NODE_ENV);
-  console.log("Here is my process.env.MONGODB_URI");
+  console.log("Here is my process.env.MONGODB_URI: ", process.env.MONGODB_URI);
   // checking if the app is running in production mode
   if (process.env.NODE_ENV === 'production') {
     connectionString = process.env.MONGODB_URI;

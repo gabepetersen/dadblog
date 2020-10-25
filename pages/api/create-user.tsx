@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { disconnect } from 'process';
 import { v4 as UUID } from 'uuid';
 
 import User from '../../server/db-schemas/user';

@@ -11,13 +11,13 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
       <AnimatePresence>
         <motion.div key={router.route} initial="pageInitial" exit="pageExit" animate="pageAnimate" variants={{
           pageInitial: {
-            opacity: 0
+            opacity: 0.90
           },
           pageAnimate: {
             opacity: 1
           },
           pageExit: {
-            opacity: 0
+            opacity: 0.90
           }
         }}>
           <Component {...pageProps} />

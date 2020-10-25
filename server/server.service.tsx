@@ -31,7 +31,7 @@ export async function connectDB() {
 export async function disconnectDB() {
   if (mongoose.connection) {
     await mongoose.connection.close(() => {
-      console.log("Database Disconnected")
+      console.log("Database Disconnected");
     })
   } else {
     console.error("No Current Connection Exists - Call connectDB() to start one");

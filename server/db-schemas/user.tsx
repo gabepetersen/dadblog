@@ -69,5 +69,5 @@ userSchema.methods.validateJWT = function (token) {
   }
 }
 
-const UserModel = mongoose.model('User', userSchema)
-export default UserModel;
+// lil thing to check if the model is already instantiated or not
+export default mongoose.model('User') ? mongoose.model('User') : mongoose.model('User', userSchema);

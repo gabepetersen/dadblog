@@ -35,6 +35,7 @@ export default function Login() {
       if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(emailSignup.value)) {
         const res = await apiSignup(nameSignup.value, emailSignup.value, password1Signup.value);
         console.log("Signup Result: ", res);
+        
       } else {
         console.log('invalid email');
         ToastController.show('Email is Not Valid!');

@@ -69,5 +69,12 @@ userSchema.methods.validateJWT = function (token) {
   }
 }
 
-// lil thing to check if the model is already instantiated or not
-export default mongoose.model('User') ? mongoose.model('User') : mongoose.model('User', userSchema);
+// brash workaround - probably shouldn't do this
+var userModel;
+try {
+  userModel = mongoose.model('User')
+} catch (error) {
+  userModel = mongoose.model('User', userSchema);
+}
+
+export default userModel;

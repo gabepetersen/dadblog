@@ -13,7 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     await connectDB();
   } catch (err) {
     console.error(`Error Connecting to Database: ${err}`);
-    res.status(503).json({ text: `Error Connecting to Database: ${err}` });
+    res.status(503).json({ text: `Error Connecting to Database: ${err}`, code: 0 });
   }
 
   // once the database is open, create the new user
@@ -27,7 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     var token = newUser.generateJWT();
   } catch (err) {
     console.log("Error Creating New User");
-    res.status(500).json({ text: `Error Creating New User: ${err}` });
+    res.status(500).json({ text: `Error Creating New User: ${err}`, code: 0 });
   }
 
 
@@ -35,17 +35,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   newUser.save(async function (err, user) {
     if (err) {
       // this error stems from demands not being met by the API or the database
-      res.status(406).json({ text: `Error uploading User Info: ${err}` });
+      res.status(406).json({ text: `Error uploading User Info: ${err}`, code: 0 });
       await disconnectDB();
       return;
     } else {
       // if token is valid - pass token back to user
       if (token) {
-        res.status(201).json({ text: `Succesfully Created User`, token: token });
+        res.status(201).json({ text: `Succesfully Created User`, token: token, code: 1});
         await disconnectDB();
         return;
       } else {
-        res.status(500).json({ text: 'Cannot Generate Token' });
+        res.status(500).json({ text: 'Cannot Generate Token', code: 0 });
         await disconnectDB();
       }
     }  

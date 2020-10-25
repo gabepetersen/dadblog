@@ -1,4 +1,3 @@
-
 /**
  * logout method to clear the user token
  */

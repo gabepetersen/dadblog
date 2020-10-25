@@ -1,7 +1,9 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 
 import { getThemeController } from './theme-provider';
+import { logout, checkLogin } from '../lib/auth.service';
 import Button from './button';
 
 import styles from './navbar.module.scss';
@@ -11,8 +13,6 @@ export default function Navbar({ home }: { home: boolean }) {
 
   // get the theme state and function to change it
   const [theme, setTheme] = getThemeController();
-
-  const user = false;
   
   return (
     <nav>
@@ -40,7 +40,7 @@ export default function Navbar({ home }: { home: boolean }) {
         </motion.li>
         <motion.li variants={nav_item}><Link href="/articles">Articles</Link></motion.li>
         <motion.li variants={nav_item}>
-          <LoginControl user={user}></LoginControl>
+          <LoginControl></LoginControl>
         </motion.li>
       </motion.ul>
     </nav>
@@ -51,12 +51,22 @@ export default function Navbar({ home }: { home: boolean }) {
  * LoginControl returns sign in or sign out based on if the user is logged in
  * @param user tells if the user is logged in or not
  */
-function LoginControl({ user }: { user: boolean }) {
-  // just have this placeholder here for now
-  return ( user ? <Link href="/"><a>Sign Out</a></Link> : <Link href="/login"><a>Login</a></Link> ) 
+function LoginControl() {
+
+  // declare router
+  const router = useRouter();
+
+  function toggleLogout(event) {
+    event.preventDefault();
+    logout();
+    router.push('/');
+  }
+  return (checkLogin() ? <a onClick={toggleLogout}>Logout</a> : <Link href="/login"><a>Login</a></Link> ) 
 }
 
-// animation variants for the unordered list
+/**
+ * Here are the animation variants
+ */
 const nav_list = {
   initial: {
     opacity: 0,

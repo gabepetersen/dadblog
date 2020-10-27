@@ -20,6 +20,10 @@ var userSchema = new mongoose.Schema({
     unique: true,
     required: true
   },
+  confirmed: {
+    type: Boolean,
+    required: true
+  },
   // Date.now() works well for this
   date: {
     type: Date,

@@ -28,8 +28,7 @@ export async function apiLogin(email: string, password: string) {
  * @param password 
  * @returns Promise<any>
  */
-export function apiSignup(name: string, email: string, password: string) {
-  console.log("Signup: ", { n: name, e: email, p: password });
+export async function apiSignup(name: string, email: string, password: string) {
   return fetch("/api/create-user", {
     method: "POST",
     headers: {
@@ -37,6 +36,21 @@ export function apiSignup(name: string, email: string, password: string) {
       "Accept": "application/json"
     },
     body: JSON.stringify({ name: name, email: email, pass: password })
+  }).then(x => x.json());
+}
+/**
+ * sends a confirmation email to the given email
+ * @param email 
+ */
+export async function sendConfirmation(email: string) {
+  console.log("Level 1");
+  return fetch("/api/email/send-email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    body: JSON.stringify({ email: email })
   }).then(x => x.json());
 }
 /**

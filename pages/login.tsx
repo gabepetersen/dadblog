@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Layout from '../components/layout';
 import { ToastContainer, ToastController } from '../components/toast';
 import { newFormField } from '../lib/input.service';
-import { apiLogin, apiSignup, storeToken } from '../lib/auth.service';
+import { apiLogin, apiSignup, sendConfirmation, storeToken } from '../lib/auth.service';
 
 import styles from './login.module.scss';
 
@@ -48,15 +48,22 @@ export default function Login() {
       // handy little email validation from: https://www.w3resource.com/javascript/form/email-validation.php
       if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(emailSignup.value)) {
         const res = await apiSignup(nameSignup.value, emailSignup.value, password1Signup.value);
+        console.log(res);
         ToastController.show(res.text);
-        if (res.code) {
-          setTimeout(() => {
-            signupForm.reset();
-            storeToken(res.token);
-            // we are not going to user router.back() right now
-            router.push('/');
-          }, 1000);
-        }
+        setTimeout(async () => {
+          if (res.code) {
+            const emailRes = await sendConfirmation(emailSignup.value);
+            console.log(emailRes);
+            ToastController.show(emailRes.text);
+            setTimeout(() => {
+              signupForm.reset();
+              storeToken(res.token);
+              // we are not going to user router.back() right now
+              router.push('/');
+            }, 2000);
+          }
+        }, 2000);
+        
       } else {
         console.log('invalid email');
         ToastController.show('Email is Not Valid!');

@@ -20,6 +20,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     var newUser = new User();
     newUser.email = email;
+    newUser.confirmed = false;
     newUser.name = name;
     newUser.role = 'user';
     newUser.date = Date.now();

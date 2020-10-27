@@ -33,6 +33,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         console.log("Invalid Password");
         res.status(406).json({ text: "Invalid Password", code: 0 });
         await disconnectDB();
+      } else if(!user.confirmed) {
+        console.log("Email Unconfirmed");
+        res.status(406).json({ text: "Email Not Confirmed - Check Spam Folder", code: 0 });
+        await disconnectDB();
       } else {
         // if they match, send new token to user
         var token = user.generateJWT();

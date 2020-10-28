@@ -28,14 +28,21 @@ export default function Login() {
     ToastController.show("Logging In...");
     // Handle login in auth service
     const res = await apiLogin(emailLogin.value, passwordLogin.value);
-    ToastController.show(res.text);
-    if (res.code) {
+    console.log(res.text);
+    if (res.code === 1) {
+      ToastController.show(res.text);
       setTimeout(() => {
         loginForm.reset();
         storeToken(res.token);
         // we are not going to user router.back() right now
         router.push('/');
       }, 1000);
+    } else if (res.code === 2) {
+      ToastController.show("You are Not Confirmed Yet - Sending Another Email");
+      const emailRes = await sendConfirmation(emailLogin.value);
+      console.log(emailRes);
+    } else {
+      ToastController.show("Login Unsuccessful");
     }
   }
   
@@ -48,12 +55,16 @@ export default function Login() {
       // handy little email validation from: https://www.w3resource.com/javascript/form/email-validation.php
       if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(emailSignup.value)) {
         const res = await apiSignup(nameSignup.value, emailSignup.value, password1Signup.value);
-        console.log(res);
+        // show the signup result
+        console.log(res.text);
         ToastController.show(res.text);
         setTimeout(async () => {
+          // if the account is created succesfully
           if (res.code) {
+            // send an email confirmation
             const emailRes = await sendConfirmation(emailSignup.value);
             console.log(emailRes);
+            // show the email result
             ToastController.show(emailRes.text);
             setTimeout(() => {
               signupForm.reset();

@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 // Big thank you to Jesse Heaslip for this wonderful article
 // https://blog.bitsrc.io/email-confirmation-with-react-257e5d9de725
 
+import { connectDB, disconnectDB } from '../../../../server/server.service';
 // this is annoying, we should fix later
 import User from '../../../../server/db-schemas/user';
 
@@ -12,6 +13,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // get id
   const router = useRouter();
   const { id } = router.query;
+
+   // connect to the database
+   try {
+    await connectDB();
+  } catch (err) {
+    console.error(`Error Connecting to Database: ${err}`);
+    res.status(503).json({ text: `Error Connecting to Database: ${err}`, code: 0 });
+  }
 
   var user = null;
   try {
@@ -35,4 +44,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   } else {
     res.status(100).json({ text: "Email already Confirmed", code: 0 });
   }
+
+  await disconnectDB();
 }

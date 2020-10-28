@@ -1,31 +1,53 @@
 import nodemailer from 'nodemailer';
 
-// The credentials for the email account you want to send mail from.
-const credentials = {
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
-  auth: {
-    // These environment variables will be pulled from the .env file
-    user: process.env.MAIL_USER, 
-    pass: process.env.MAIL_PASS  
+console.log("Mail Creds: ", { user: process.env.MAIL_USER, pass: process.env.MAIL_PASS });
+
+
+
+export async function sendEmail(to, content) {
+  let testAccount = await nodemailer.createTestAccount();
+
+  // The credentials for the email account you want to send mail from.
+  /*
+  const credentials = {
+    // host: 'smtp.gmail.com',
+    // port: 465,
+    // secure: true,
+    service: 'gmail',
+    auth: {
+      // These environment variables will be pulled from the .env file
+      user: process.env.MAIL_USER, 
+      pass: process.env.MAIL_PASS  
+    }
   }
-}
+  */
+  const credentials = {
+    host: "smtp.ethereal.email",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: testAccount.user, // generated ethereal user
+      pass: testAccount.pass, // generated ethereal password
+    },
+  }
 
-// Getting Nodemailer all setup with the credentials for when the 'sendEmail()'
-// function is called.
-const transporter = nodemailer.createTransport(credentials)
+  // Getting Nodemailer all setup with the credentials for when the 'sendEmail()'
+  // function is called.
+  const transporter = nodemailer.createTransport(credentials)
 
-export async function sendEmail(toEmail, content) {
+
+
    // The from and to addresses for the email that is about to be sent.
    const contacts = {
     from: process.env.MAIL_USER,
-    toEmail
+    to
    }
   
   // Combining the content and contacts into a single object that can
   // be passed to Nodemailer.
   const email = Object.assign({}, content, contacts);
+
+  console.log("email object: ", email);
 
   // This file is imported into the controller as 'sendEmail'. Because 
   // 'transporter.sendMail()' below returns a promise we can write code like this
@@ -37,5 +59,10 @@ export async function sendEmail(toEmail, content) {
   // If you are running into errors getting Nodemailer working, wrap the following 
   // line in a try/catch. Most likely is not loading the credentials properly in 
   // the .env file or failing to allow unsafe apps in your gmail settings.
-  await transporter.sendMail(email);
+
+  let info = await transporter.sendMail(email);
+
+  console.log("Message sent: %s", info.messageId);
+
+  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 }

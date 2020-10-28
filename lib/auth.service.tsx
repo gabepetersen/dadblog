@@ -43,7 +43,6 @@ export async function apiSignup(name: string, email: string, password: string) {
  * @param email 
  */
 export async function sendConfirmation(email: string) {
-  console.log("Level 1");
   return fetch("/api/email/send-email", {
     method: "POST",
     headers: {

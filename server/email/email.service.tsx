@@ -5,7 +5,7 @@ console.log("Mail Creds: ", { user: process.env.MAIL_USER, pass: process.env.MAI
 
 
 export async function sendEmail(to, content) {
-  let testAccount = await nodemailer.createTestAccount();
+  // let testAccount = await nodemailer.createTestAccount();
 
   // The credentials for the email account you want to send mail from.
   /*
@@ -21,13 +21,14 @@ export async function sendEmail(to, content) {
     }
   }
   */
+  
+  console.log("mail user/pass: " + process.env.MAIL_USER + ", " + process.env.MAIL_PASS);
   const credentials = {
-    host: "smtp.ethereal.email",
+    host: "smtp.gmail.com",
     port: 587,
-    secure: false, // true for 465, false for other ports
     auth: {
-      user: testAccount.user, // generated ethereal user
-      pass: testAccount.pass, // generated ethereal password
+      user: process.env.MAIL_USER,
+      pass: process.env.MAIL_PASS 
     },
   }
 
@@ -35,17 +36,15 @@ export async function sendEmail(to, content) {
   // function is called.
   const transporter = nodemailer.createTransport(credentials)
 
-
-
-   // The from and to addresses for the email that is about to be sent.
-   const contacts = {
+  // The from and to addresses for the email that is about to be sent.
+  const contacts = {
     from: process.env.MAIL_USER,
     to
-   }
+  }
   
   // Combining the content and contacts into a single object that can
   // be passed to Nodemailer.
-  const email = Object.assign({}, content, contacts);
+  const email = Object.assign({}, contacts, content);
 
   console.log("email object: ", email);
 
@@ -60,9 +59,5 @@ export async function sendEmail(to, content) {
   // line in a try/catch. Most likely is not loading the credentials properly in 
   // the .env file or failing to allow unsafe apps in your gmail settings.
 
-  let info = await transporter.sendMail(email);
-
-  console.log("Message sent: %s", info.messageId);
-
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  return transporter.sendMail(email);
 }

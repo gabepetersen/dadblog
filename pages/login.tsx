@@ -99,6 +99,7 @@ export default function Login() {
               id="loginEmail"
               name="loginEmail"
               {...emailLogin}
+              autoComplete="on"
             />
             <br />
             <label htmlFor="loginPass">Password</label><br />
@@ -107,6 +108,7 @@ export default function Login() {
               id="loginPass"
               name="loginPass"
               {...passwordLogin}
+              autoComplete="on"
             />
             <br />
             <input type="submit" value="Submit" />
@@ -123,6 +125,7 @@ export default function Login() {
               id="name"
               name="name"
               {...nameSignup}
+              autoComplete="on"
             />
             <br />
             <label htmlFor="signupEmail">Email</label><br />
@@ -131,6 +134,7 @@ export default function Login() {
               id="signupEmail"
               name="signupEmail"
               {...emailSignup}
+              autoComplete="on"
             />
             <br />
             <label htmlFor="signupPass1">Password</label><br />
@@ -139,6 +143,7 @@ export default function Login() {
               id="signupPass1"
               name="signupPass1"
               {...password1Signup}
+              autoComplete="on"
             />
             <br />
             <label htmlFor="signupPass2">Password Again</label><br />
@@ -147,6 +152,7 @@ export default function Login() {
               id="signupPass2"
               name="signupPass2"
               {...password2Signup}
+              autoComplete="on"
             />
             <br />
             <input type="submit" value="Submit" />

@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { useRouter } from 'next/router';
 
 // Big thank you to Jesse Heaslip for this wonderful article
 // https://blog.bitsrc.io/email-confirmation-with-react-257e5d9de725
@@ -10,9 +9,10 @@ import User from '../../../../server/db-schemas/user';
 
 // This function basically sets the User confirmed value to true
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+
   // get id
-  const router = useRouter();
-  const { id } = router.query;
+  const id = req.query.id;
+  console.log("Here is the other id: " + id);
 
    // connect to the database
    try {
@@ -25,6 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   var user = null;
   try {
     user = await User.findById(id);
+    console.log('user: ', user);
   } catch (err) {
     res.status(400).json({ text: `Could Not Get User: ${err}`, code: 0 });
   }
@@ -46,4 +47,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   await disconnectDB();
+
 }

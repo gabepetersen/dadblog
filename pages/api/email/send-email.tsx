@@ -18,7 +18,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(503).json({ text: `Error Connecting to Database: ${err}`, code: 0 });
   }
 
-
   var user = null;
   try {
     user = await User.findOne({ email });
@@ -33,12 +32,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // We have already seen this email address. But the user has not
     // clicked on the confirmation link. Send a confirmation email.
     try {
-      await sendEmail(user.email, confirmTemplate(user._id));
+      const info = await sendEmail(user.email, confirmTemplate(user._id));
+      console.log("email send info: " + info);
+      res.status(200).json({ text: `Confirmation Email Sent!`, code: 1 });
     } catch (err) {
       res.status(400).json({ text: `Could Not Send Email: ${err}`, code: 0 });
-    }
-
-    res.status(200).json({ text: "Cofirmation Email Sent!", code: 1 });
+    }   
   // if user already confirmed, tell the user
   } else {
     res.status(200).json({ text: "You are Already Confirmed!", code: 1 });

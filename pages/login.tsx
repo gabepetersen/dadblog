@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Layout from '../components/layout';
 import { ToastContainer, ToastController } from '../components/toast';
 import { newFormField } from '../lib/input.service';
-import { apiLogin, apiSignup, sendConfirmation, storeToken } from '../lib/auth.service';
+import { apiLogin, apiSignup, sendConfirmation, storeToken, storeRole } from '../lib/auth.service';
 
 import styles from './login.module.scss';
 
@@ -25,15 +25,16 @@ export default function Login() {
   const handleLogin = async (event: React.FormEvent) => {
     // prevent page from reloading
     event.preventDefault();
+    loginForm.reset();
     ToastController.show("Logging In...");
     // Handle login in auth service
     const res = await apiLogin(emailLogin.value, passwordLogin.value);
     console.log(res.text);
     if (res.code === 1) {
       ToastController.show(res.text);
-      setTimeout(() => {
-        loginForm.reset();
+      setTimeout(() => {    
         storeToken(res.token);
+        storeRole(res.role);
         // we are not going to user router.back() right now
         router.push('/');
       }, 1000);
@@ -49,6 +50,7 @@ export default function Login() {
   const handleSignup = async (event: React.FormEvent) => {
     // prevent page from reloading
     event.preventDefault();
+    signupForm.reset();
     ToastController.show("signing you up!");
     // handle signup in auth service
     if (password1Signup.value == password2Signup.value) {
@@ -66,9 +68,9 @@ export default function Login() {
             console.log(emailRes);
             // show the email result
             ToastController.show(emailRes.text);
-            setTimeout(() => {
-              signupForm.reset();
+            setTimeout(() => {         
               storeToken(res.token);
+              storeRole(res.role);
               // we are not going to user router.back() right now
               router.push('/');
             }, 2000);
@@ -89,9 +91,9 @@ export default function Login() {
     <Layout>
       <section className={styles.formContainer}>
 
-        {/* Login Portion */}
-        <h2>Login</h2>
+        {/* Login Portion */}      
         <div className={styles.login}>
+          <h2>Login</h2>
           <form onSubmit={handleLogin} ref={form => loginForm = form}>
             <label htmlFor="loginEmail">Email</label><br />
             <input
@@ -115,9 +117,9 @@ export default function Login() {
           </form>
         </div>
 
-        {/* Signup Portion */}
-        <h2>Signup</h2>
+        {/* Signup Portion */}   
         <div className={styles.signup}>
+          <h2>Signup</h2>
           <form onSubmit={handleSignup} ref={form => signupForm = form}>
             <label htmlFor="name">Name</label><br />
             <input

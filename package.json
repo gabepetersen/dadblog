@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/jest": "^26.0.14",
     "@types/uuid": "^8.3.0",
+    "aws-sdk": "^2.793.0",
     "classnames": "^2.2.6",
     "cookies": "^0.8.0",
     "date-fns": "^2.16.1",

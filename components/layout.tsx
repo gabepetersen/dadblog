@@ -35,10 +35,12 @@ export default function Layout({ children, home }: { children: React.ReactNode, 
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
 
+
       {/* Inserts NavBar on Every Page */}
       <Navbar home={home}></Navbar>
 
       {/* Displays Header as Link Conditionally */}
+      {/*
       <header className={styles.header}>
         {home ? (
           <>
@@ -68,6 +70,7 @@ export default function Layout({ children, home }: { children: React.ReactNode, 
           </>
         )}
       </header>
+        */}
 
       {/* Main Content of Page */}
       <main className={styles.main}>
@@ -75,6 +78,7 @@ export default function Layout({ children, home }: { children: React.ReactNode, 
       </main>
 
       {/* Conditional Back Link */} 
+      {/*
       {!home && (
         <div className={styles.backToHome}>
           <Link href="/">
@@ -82,6 +86,7 @@ export default function Layout({ children, home }: { children: React.ReactNode, 
           </Link>
         </div>
       )}
-    </div>
+      */}
+    </div>   
   );
 }

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 
 import { getThemeController } from './theme-provider';
-import { logout, checkLogin } from '../lib/auth.service';
+import { logout, checkLogin, getRole } from '../lib/auth.service';
 import Button from './button';
 
 import styles from './navbar.module.scss';
@@ -39,6 +39,7 @@ export default function Navbar({ home }: { home: boolean }) {
           </Button>
         </motion.li>
         <motion.li variants={nav_item}><Link href="/articles">Articles</Link></motion.li>
+        <WriteControl></WriteControl>
         <motion.li variants={nav_item}>
           <LoginControl></LoginControl>
         </motion.li>
@@ -49,7 +50,6 @@ export default function Navbar({ home }: { home: boolean }) {
 
 /**
  * LoginControl returns sign in or sign out based on if the user is logged in
- * @param user tells if the user is logged in or not
  */
 function LoginControl() {
 
@@ -62,6 +62,13 @@ function LoginControl() {
     router.push('/');
   }
   return (checkLogin() ? <a onClick={toggleLogout}>Logout</a> : <Link href="/login"><a>Login</a></Link> ) 
+}
+
+function WriteControl() {
+  if (getRole() === 'writer') {
+    return (<motion.li variants={nav_item}><Link href="/create">Write</Link></motion.li>);
+  }
+  return (<></>);
 }
 
 /**

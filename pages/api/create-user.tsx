@@ -42,7 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } else {
       // if token is valid - pass token back to user
       if (token) {
-        res.status(201).json({ text: `Succesfully Created User`, token: token, code: 1});
+        res.status(201).json({ text: `Succesfully Created User`, token: token, role: newUser.role, code: 1});
         await disconnectDB();
         return;
       } else {

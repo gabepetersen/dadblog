@@ -41,7 +41,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         // if they match, send new token to user
         var token = user.generateJWT();
         if (token) {
-          res.status(202).json({ text: 'Succesfully Signed In', token: token, code: 1 });
+          res.status(202).json({ text: 'Succesfully Signed In', token: token, role: user.role, code: 1 });
           await disconnectDB();
         }
       }

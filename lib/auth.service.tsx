@@ -3,6 +3,7 @@
  */
 export function logout() {
   deleteToken();
+  deleteRole();
   console.log("Logged Out");
 }
 /**
@@ -64,51 +65,77 @@ export function checkLogin() {
   }
 }
 /**
- * stores the token in localstorage
+ * stores the token in sessionStorage
  * @param token 
- * @returns number
  */
 export function storeToken(token) {
   if (typeof window !== 'undefined') {
     try {
-      localStorage.setItem('user_token', token);
+      sessionStorage.setItem('user_token', token);
     } catch (err) {
       console.error("Error with Storage: ", err);
     }
-  } else {
-    return 0
   }
 }
 /**
- * gets the current user token - 0 if error
- * @returns string or number
+ * stores the user role - this should not be used for any security
+ * Only as an convienience auth guard
+ * @param role 
+ */
+export function storeRole(role: string) {
+  if (typeof window !== 'undefined') {
+    try {
+      sessionStorage.setItem('user_role', role)
+    } catch (err) {
+      console.error("Error with Storage: ", err);
+    }
+  }
+}
+/**
+ * gets the current user token
  */
 export function getToken() {
   if (typeof window !== 'undefined') {
     try {
-      return localStorage.getItem('user_token');
+      return sessionStorage.getItem('user_token');
     } catch (err) {
       console.error("Error with Storage: ", err);
-      return 0;
     }
-  } else {
-    return 0;
   }
 }
 /**
- * removes token from local storage
- * @returns boolean
+ * gets the user role - for front-end purposes ONLY
+ */
+export function getRole() {
+  if (typeof window !== 'undefined') {
+    try {
+      return sessionStorage.getItem('user_role');
+    } catch (err) {
+      console.error("Error with Storage: ", err);
+    }
+  }
+}
+/**
+ * removes token from session storage
  */
 export function deleteToken() {
   if (typeof window !== 'undefined') {
     try {
-      localStorage.removeItem('user_token');
-      return true;
+      sessionStorage.removeItem('user_token');
     } catch (err) {
       console.error("Error with Storage: ", err);
-      return false;
     }
-  } else { 
-    return 0;
+  }
+}
+/**
+ * removes user role from session storage
+ */
+export function deleteRole() {
+  if (typeof window !== 'undefined') {
+    try {
+      sessionStorage.removeItem('user_role');
+    } catch (err) {
+      console.error("Error with Storage: ", err);
+    }
   }
 }

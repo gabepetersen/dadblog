@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import fs from 'fs';
 import path from 'path';
+import { createBucket, uploadFile } from '../../server/storage.service';
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -37,6 +38,11 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     fileStream.end();
     // create finish event callback - send created code
     fileStream.on('finish', () => {
+      try {
+        uploadFile((postsDirectory + '/' + url + '.md'), (url + '.md'));
+      } catch (err) {
+        console.error(err);
+      }   
       res.status(201).json({ text: 'Blog Successfully Uploaded' });
       return;
     });

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import fs from 'fs';
 import path from 'path';
-import { createBucket, uploadFile } from '../../server/storage.service';
+import { uploadFile, readFiles } from '../../server/storage.service';
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -40,6 +40,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     fileStream.on('finish', () => {
       try {
         uploadFile((postsDirectory + '/' + url + '.md'), (url + '.md'));
+        readFiles();
       } catch (err) {
         console.error(err);
       }   

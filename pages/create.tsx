@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import Layout from '../components/layout';
 import styles from './create.module.scss';
 
 var blogText: string = '';
@@ -7,7 +8,7 @@ var blogTitle: string = '';
 
 export default function Create() {
   return (
-    <>
+    <Layout>
       <h1>Create a New Post</h1>
       <p>**text** for <b>bold</b></p>
       <p>*text* for <i>italic</i></p>
@@ -20,7 +21,7 @@ export default function Create() {
       </form>
       <br />
       <Link href="/"><a>Back To Home</a></Link>
-    </>
+    </Layout>
   );
 }
 

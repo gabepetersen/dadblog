@@ -65,11 +65,8 @@ export function readFiles() {
     Bucket: process.env.BlogBucket,
     Key: ''
   }
-  s3.listObjects(params, function(err, data) {
-    if (err) {
-      console.log("Error with List Objects", err);
-      return 0;
-    }
+  const bucket = process.env.BlogBucket;
+  s3.listObjects({ Bucket: bucket }).promise().then((data) => {
     var file;
     // for each of the keys
     data.Contents.forEach((obj) => {
@@ -77,12 +74,18 @@ export function readFiles() {
       // create a write stream for the posts
       file = fs.createWriteStream(path.join(process.cwd(), obj.Key));
       // get the data from storage
-      s3.getObject(fileParams).createReadStream().pipe(file).on('error', function(err) {
-        // capture any errors that occur when writing data to the file
-        console.error('File Stream:', err);
-      }).on('close', function() {
-          console.log('Done.');
-      });
+      // s3.getObject(fileParams).createReadStream().pipe(file).on('error', function (err) {
+          // capture any errors that occur when writing data to the file
+          // console.error('File Stream:', err);
+        // }).on('close', function () {
+          // console.log('Done.');
+        // });
+      s3.getObject({ Bucket: bucket, Key: obj.Key }).promise().then((result) => {
+        fs.writeFileSync(path.join(process.cwd(), obj.Key), result.Body.toString());
+      })
     })
+  }).catch((err) => {
+    console.log("Error with List Objects", err);
+    return 0;
   });
 }

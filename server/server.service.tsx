@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import jwt from 'jsonwebtoken';
 
 // Big thanks to @paradoxinversion - Jedai Saboteur for the nice MongoDB w/ Next js example
 // https://github.com/paradoxinversion/nextjs-mongodb.git

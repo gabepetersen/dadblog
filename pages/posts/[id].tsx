@@ -30,7 +30,7 @@ export default function Post({ postData }:
 
 /**
  * BIG NOTE: getStaticPaths and getStaticProps ONLYYY runs on the server
- * so don't put like fetches in these functions - only write server side code
+ * so don't put like client fetches in these functions - only write server side code
  */
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = getAllPostIds();
@@ -40,12 +40,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
+// getStaticPaths feeds params
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const postData = await getPostData(params.id as string);
   // return postData for template to use 
   return {
     props: {
       postData
-    }
+    },
+    // will revalidate changes every 5 seconds
+    revalidate: 5
   };
 }

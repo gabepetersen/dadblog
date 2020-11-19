@@ -58,28 +58,15 @@ export function readFiles() {
   // This spits out like a ton of errors but without it doesnt work???
   newBucket();
 
-  const params = {
-    Bucket: process.env.BlogBucket
-  }
-  var fileParams = {
-    Bucket: process.env.BlogBucket,
-    Key: ''
-  }
   const bucket = process.env.BlogBucket;
+  // list all the objects
   s3.listObjects({ Bucket: bucket }).promise().then((data) => {
     var file;
     // for each of the keys
     data.Contents.forEach((obj) => {
-      fileParams.Key = obj.Key;
       // create a write stream for the posts
       file = fs.createWriteStream(path.join(process.cwd(), obj.Key));
       // get the data from storage
-      // s3.getObject(fileParams).createReadStream().pipe(file).on('error', function (err) {
-          // capture any errors that occur when writing data to the file
-          // console.error('File Stream:', err);
-        // }).on('close', function () {
-          // console.log('Done.');
-        // });
       s3.getObject({ Bucket: bucket, Key: obj.Key }).promise().then((result) => {
         fs.writeFileSync(path.join(process.cwd(), obj.Key), result.Body.toString());
       })

@@ -12,8 +12,9 @@ export function getSortedPostsData() {
   // get file names under /posts
   const fileNames = fs.readdirSync(postsDirectory);
   const allPostsData = fileNames.map((fileName) => {
-    // remove '.md' from filename to get id
-    const id = fileName.replace(/\.md$/, '');
+
+    // remove the blog id and '.md' from filename to get id
+    const id = fileName.split('_')[1].replace(/\.md$/, '');
 
     // read markdwon file as a string
     const fullPath = path.join(postsDirectory, fileName);
@@ -58,14 +59,23 @@ export function getAllPostIds() {
   return fileNames.map((fileName) => {
     return {
       params: {
-        id: fileName.replace(/\.md$/, '')
+        id: fileName.split('_')[1].replace(/\.md$/, '')
       }
     }
   })
 }
 
 export async function getPostData(id: string) {
-  const fullPath = path.join(postsDirectory, `${id}.md`);
+  // have to do a little filtering since we have renamed our blog files :/
+  const fileNames = fs.readdirSync(postsDirectory);
+  var correctFile = '';
+  fileNames.forEach((filename) => {
+    if (filename.includes(`${id}.md`)) {
+      correctFile = filename;
+    }
+  })
+  // make sure to get full path
+  const fullPath = path.join(postsDirectory, correctFile);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
 
   // use gray-matter to parse the post metadata section

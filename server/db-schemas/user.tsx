@@ -29,6 +29,14 @@ var userSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
+  writtenBlogs: {
+    type: Array,
+    required: true
+  },
+  likedBlogs: {
+    type: Array,
+    required: true
+  },
   hash: {
     type: String,
     unique: true,

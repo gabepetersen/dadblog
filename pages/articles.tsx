@@ -7,6 +7,10 @@ import { getSortedPostsData } from '../lib/posts.service';
 
 import utilStyles from '../styles/utils.module.scss';
 
+// NOTE: this is ONLY for the getStaticProps since this is server code
+// otherwise you will download all the .md files to the client
+import { readFiles } from '../server/storage.service';
+
 export default function Articles({ allPostsData }:
   { allPostsData: {id: string, date: number, title: string}[] }
 )  {
@@ -28,12 +32,6 @@ export default function Articles({ allPostsData }:
               ))}
           </ul>
       </section>
-      
-      {/* <section className={`${utilStyles.headingMd} ${utilStyles.padding1px} ${utilStyles.noMargin}`}>
-        <Link href="/create">
-          <a>Create a Post</a>
-        </Link>
-            </section> */}
     </Layout>
   );
 }
@@ -41,11 +39,16 @@ export default function Articles({ allPostsData }:
 
 // Get static props will get the blog posts on static generation pre-render
 export const getStaticProps: GetStaticProps = async () => {
+  // read blogs from the file server into the web server
+  readFiles();
+  // get all the Post Datas
   const allPostsData = getSortedPostsData();
   return {
     props: {
       allPostsData
-    }
+    },
+    // will revalidate changes every 5 seconds
+    revalidate: 5
   }
 }
 

@@ -57,22 +57,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   fileStream.write(text);
   fileStream.end();
   // create finish event callback - send created code
-  fileStream.on('finish', () => {
-    try {
-      // add the blog id to the user's writtenBlogs list
+  fileStream.on('finish', async () => {
+    try {  
       User.findOne({ email: userData.email }, async (err, user) => {
         if (err) {
           res.status(400).json({ text: `Error writing to Database`, code: 0 });
           return;
         }
+        // add the blog id to the user's writtenBlogs list
         user.writtenBlogs.push(url);
         // make sure to save it silly ;-;
         await user.save();
       });
       // upload the file to s3
-      uploadFile((postsDirectory + '/' + url + '.md'), (url + '.md'));
-      readFiles();
-      User.findOne()
+      if (await uploadFile((postsDirectory + '/' + url + '.md'), (url + '.md'))) {
+        // if file is uploaded successfully - delete from local
+        fs.unlinkSync((postsDirectory + '/' + url + '.md'));
+      }
     } catch (err) {
       console.error(err);
       disconnectDB();

@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# heroku
+/posts/*.md
+
 # next.js
 /.next/
 /out/

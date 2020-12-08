@@ -26,10 +26,7 @@ export default function Articles({ allPostsData }:
                   </Link>
                   <br />
                   <small>
-                    By {author}
-                  </small>
-                  <small>
-                    <CustomDate ms={date} />
+                    {author}&nbsp;&nbsp;/&nbsp;&nbsp;<CustomDate ms={date} />
                   </small>
                 </li>
               ))}

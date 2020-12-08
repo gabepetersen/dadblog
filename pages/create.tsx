@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 import Layout from '../components/layout';
 import styles from './create.module.scss';
@@ -27,9 +27,11 @@ export default function Create() {
           body: JSON.stringify({ title: blogTitle, text: blogText, token: token })
         }).then(x => x.json());
         console.log(data.text, data.code);
-        if (data.code > 300) {
-          console.log(`Error Posting Blog ${data.text}`);
+        if (data.code === 0) {
           ToastController.show(`Error Posting Blog ${data.text}`);
+        } else {
+          ToastController.show('Succesfully Uploaded Blog');
+          router.push('/articles');
         }
       } else {
         console.log("Not Logged In!");
@@ -55,18 +57,28 @@ export default function Create() {
 
   return (
     <Layout>
-      <h1>Create a New Post</h1>
+      <h2>Instructions for Creating a Post</h2>
+      
+      <p>#text for large heading</p>
+      <p>####text for small heading</p>
       <p>**text** for <b>bold</b></p>
-      <p>*text* for <i>italic</i></p>
+      <p>*text* for <i>italic</i></p>  
+      <p>> text for blockquote</p>
+      <p>1. text for ordered list</p>
+      <p>- text for unordered list</p>
+      <p>--- on newline for horizontal line</p>
+      <p>[title](https://www.example.com) for a link</p>
+      <p>You can find more formatting options at <Link href="https://www.markdownguide.org/cheat-sheet/">Markdown Cheatsheet</Link></p>   
+      <br />
+      <h2>Post Create Form</h2>
       <form className={styles.blogForm} onSubmit={handleSubmit}>
         <label htmlFor="btitle">Title</label><br />
         <input type="text" id="btitle" name="btitle" onChange={handleTitle} /><br />
-        <label htmlFor="btext">Blog Text</label><br />
+        <label htmlFor="btext">Content</label><br />
         <textarea id="btext" name="btext" onChange={handleText}></textarea><br />
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Post" />
       </form>
       <br />
-      <Link href="/"><a>Back To Home</a></Link>
       <ToastContainer />
     </Layout>
   );

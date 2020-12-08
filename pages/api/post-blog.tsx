@@ -28,7 +28,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(201).json({ text: 'Successfully Uploaded', code: 1 });
     } else {
       console.error(`Error: ${results[0].text}, ${results[1].text}`)
-      res.status(400).json({ text: `Error: ${results[0].text}, ${results[1].text}`, code: 0 });
+      res.status(400).json({ text: `One Error in uploading the Blog: ${results[0].text}, ${results[1].text}`, code: 0 });
     }
   }).catch((err) => {
     console.error(`Error in uploading the Blog: ${err}`);

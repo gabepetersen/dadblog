@@ -1,4 +1,8 @@
 .formContainer {
+  & input {
+    padding: 0.5rem;
+    margin: 0.5rem auto;
+  }
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
@@ -7,10 +11,6 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-}
-.formContainer input {
-  padding: 0.5rem;
-  margin: 0.5rem auto;
 }
 
 @media screen and (max-width: 550px) {

@@ -16,7 +16,6 @@ import path from 'path';
  */
 export async function createBlogOnDB(author: string, authorID: string, title: string, blogID: string): Promise<any> {
   return new Promise<any>(async (resolve, reject) => {
-    console.log({ author: author, authorID: authorID, title: title });
     // connect to the database
     try {
       await connectDB();
@@ -80,10 +79,8 @@ export async function createBlogOnDB(author: string, authorID: string, title: st
  */
 export async function createBlogOnFS(text: string, author: string, title: string, blogID: string): Promise<any> {
   return new Promise<any>((resolve, reject) => {
-    console.log({ text: text, author: author, title: title });
 
     const postsDirectory = path.join(process.cwd(), 'posts');
-    console.log(postsDirectory);
 
     // create url id / filename with replacing spaces and
     const url = blogID + '_' + title.toLowerCase().replace(/ /g, '-');

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 
+import { siteTitle } from './layout';
 import { getThemeController } from './theme-provider';
 import { logout, checkLogin, getRole } from '../lib/auth.service';
 import Button from './button';
@@ -29,7 +30,7 @@ export default function Navbar({ home }: { home: boolean }) {
         >
           <Link href="/">
           <a>
-              Thats a Blog!
+              {siteTitle}
           </a>
           </Link>
         </motion.li>

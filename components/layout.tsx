@@ -1,6 +1,5 @@
 // external imports
 import Head from 'next/head';
-import Link from 'next/link';
 
 // component imports
 import Navbar from './navbar';
@@ -8,13 +7,12 @@ import { getThemeController } from './theme-provider';
 
 // style imports
 import styles from './layout.module.scss';
-import utilStyles from '../styles/utils.module.scss';
 import dark from '../styles/dark.module.scss';
 import light from '../styles/light.module.scss';
 
 const name = 'Blog Master';
 
-export const siteTitle = 'This is a Blog!'
+export const siteTitle = 'Mutual Threads'
 
 export default function Layout({ children, home }: { children: React.ReactNode, home?: boolean }) {
 

@@ -22,12 +22,8 @@ export default function Home({ allPostsData }:
     
         <section className={utilStyles.headingMd}>
           <p>
-            Hello! My name is Gabe, and this is my super cool blog. You can checkout my blogs by going to my <Link href="/articles"><a>Articles Page</a></Link>.
+            Hello! Welcome to this Blog. You can checkout the blogs by going to the <Link href="/articles"><a>Articles Page</a></Link>.
           </p>
-          <p>
-            Here is some other text, and some more - blah blah blah.
-          </p>
-          <button onClick={checkLogin}>Show Toast</button>
         </section>
         {/* Need a Toast Container for Toasts */}
         <ToastContainer />

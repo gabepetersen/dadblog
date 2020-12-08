@@ -26,8 +26,8 @@ export default function Create() {
           },
           body: JSON.stringify({ title: blogTitle, text: blogText, token: token })
         }).then(x => x.json());
-        console.log(data.text);
-        if (data.code < 300) {
+        console.log(data.text, data.code);
+        if (data.code > 300) {
           console.log(`Error Posting Blog ${data.text}`);
           ToastController.show(`Error Posting Blog ${data.text}`);
         }
@@ -42,7 +42,7 @@ export default function Create() {
     } catch (err) {
       console.error(err); 
     }
-    
+
   }
   
   function handleTitle(event: any) {

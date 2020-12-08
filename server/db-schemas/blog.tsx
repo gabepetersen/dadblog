@@ -46,9 +46,9 @@ blogSchema.methods.getFileID = function () {
 // brash workaround - probably shouldn't do this
 var blogModel;
 try {
-  blogModel = mongoose.model('User');
+  blogModel = mongoose.model('Blog');
 } catch (error) {
-  blogModel = mongoose.model('User', blogSchema);
+  blogModel = mongoose.model('Blog', blogSchema);
 }
 
 export default blogModel;

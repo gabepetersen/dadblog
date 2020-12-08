@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
   
 import { createBlogOnDB, createBlogOnFS } from '../../server/blog.service';
-import { connectDB, disconnectDB } from '../../server/server.service';
+
+import { v4 as uuidv4 } from 'uuid';
 
 import User from '../../server/db-schemas/user';
 
@@ -16,12 +17,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(403).json({ text: 'unauthorized user', code: 0 });
     return;
   }
+  const blogID = uuidv4();
   
   // Promise all on uploading to file server and database
-  Promise.all([createBlogOnDB(userData.name, userData._id, title), createBlogOnFS(text, userData.name, title)]).then((results) => {
+  Promise.all([createBlogOnDB(userData.name, userData._id, title, blogID), createBlogOnFS(text, userData.name, title, blogID)])
+    .then((results) => {
     // if both results were successful
     console.log(results);
-    if ((results[0].code > 300) && (results[1].code > 300)) {
+    if ((results[0].code < 300) && (results[1].code < 300)) {
       res.status(201).json({ text: 'Successfully Uploaded', code: 1 });
     } else {
       console.error(`Error: ${results[0].text}, ${results[1].text}`)

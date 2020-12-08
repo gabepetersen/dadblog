@@ -9,7 +9,7 @@ import utilStyles from '../../styles/utils.module.scss';
 
 // add types
 export default function Post({ postData }:
-  { postData: { title: string, date: number, contentHTML: string } }
+  { postData: { title: string, date: number, author: string, contentHTML: string } }
 ) {
   return (
     <Layout>
@@ -20,6 +20,7 @@ export default function Post({ postData }:
         <h1 className={utilStyles.headingXl}>{postData.title}</h1>
         <div className={utilStyles.lightText}>
           <CustomDate ms={postData.date} />
+          <p>By {postData.author}</p>
         </div>
         <div dangerouslySetInnerHTML={{ __html: postData.contentHTML }}></div>
       </article>

@@ -12,19 +12,22 @@ import utilStyles from '../styles/utils.module.scss';
 import { readFiles } from '../server/storage.service';
 
 export default function Articles({ allPostsData }:
-  { allPostsData: {id: string, date: number, title: string}[] }
+  { allPostsData: {id: string, date: number, title: string, author: string}[] }
 )  {
   return (
     <Layout>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
           <h2 className={utilStyles.headingLg}>Blog</h2>
           <ul className={utilStyles.list}>
-            {allPostsData.map(({ id, date, title }) => (
+            {allPostsData.map(({ id, date, title, author }) => (
                 <li className={utilStyles.listItem} key={id}>
                   <Link href={`/posts/${id}`}>
                     <a>{title}</a>
                   </Link>
                   <br />
+                  <small>
+                    By {author}
+                  </small>
                   <small>
                     <CustomDate ms={date} />
                   </small>

@@ -63,7 +63,7 @@ export default function Create() {
       <p>####text for small heading</p>
       <p>**text** for <b>bold</b></p>
       <p>*text* for <i>italic</i></p>  
-      <p>> text for blockquote</p>
+      <p>&gt; text for blockquote</p>
       <p>1. text for ordered list</p>
       <p>- text for unordered list</p>
       <p>--- on newline for horizontal line</p>

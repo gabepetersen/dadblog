@@ -33,8 +33,20 @@ var userSchema = new mongoose.Schema({
     type: Array,
     required: true
   },
-  likedBlogs: {
+  starredBlogs: {
     type: Array,
+    required: true
+  },
+  comments: {
+    type: Array,
+    required: true
+  },
+  bio: {
+    type: String,
+    required: true
+  },
+  photo: {
+    type: String,
     required: true
   },
   hash: {
@@ -85,7 +97,7 @@ userSchema.methods.validateJWT = function (token) {
 // brash workaround - probably shouldn't do this
 var userModel;
 try {
-  userModel = mongoose.model('User')
+  userModel = mongoose.model('User');
 } catch (error) {
   userModel = mongoose.model('User', userSchema);
 }

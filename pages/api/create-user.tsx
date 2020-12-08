@@ -25,7 +25,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     newUser.role = 'user';
     newUser.date = Date.now();
     newUser.writtenBlogs = [];
-    newUser.likedBlogs = [];
+    newUser.starredBlogs = [];
+    newUser.comments = [];
+    newUser.bio = 'none';
+    newUser.photo = 'none';
     newUser.setPassword(pass);
     var token = newUser.generateJWT();
   } catch (err) {

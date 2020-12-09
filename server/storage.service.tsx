@@ -71,30 +71,53 @@ export function uploadFile(filePath: string, fileName: string) {
  * @returns Promise resolved/rejected to boolean
  */
 export function readFiles() {
-  return new Promise<boolean>((resolve, reject) => {
+  return new Promise<boolean>(async (resolve, reject) => {
     // This spits out like a ton of errors but without it doesnt work???
     newBucket();
+    // get current posts folder under current working directory
+    const postsDirectory = path.join(process.cwd(), 'posts');
+    // remove all the files before reading them from the storage
+    const fileNames = fs.readdirSync(postsDirectory);
+    fileNames.forEach((filename) => {
+      fs.unlinkSync(path.join(postsDirectory, filename));
+      console.log('filename: ', filename);
+    });
 
     const bucket = process.env.BlogBucket;
     // list all the objects
-    s3.listObjects({ Bucket: bucket }).promise().then((data) => {
-      var file;
+    s3.listObjects({ Bucket: bucket }).promise().then(async (data) => {
+      console.log('Getting objects from S3')
+      const filePromises = [];
+      const fileKeys = [];
       // for each of the keys in the bucket
       data.Contents.forEach((obj) => {
-        // create a write stream for the posts
-        file = fs.createWriteStream(path.join(process.cwd(), obj.Key));
-        // get the data from storage
-        s3.getObject({ Bucket: bucket, Key: obj.Key }).promise().then((result) => {
-          fs.writeFileSync(path.join(process.cwd(), obj.Key), result.Body.toString());
-          // error handling
-        }).catch((err) => {
-          console.error(`Error with Retrieving File from Server: ${err}`);
-          reject(false);
-        });
-      })
-    }).then(() => {
-      console.log('Files Successfully Read from Server')
-      resolve(true);
+        // push the file promises onto an array
+        filePromises.push(s3.getObject({ Bucket: bucket, Key: obj.Key }).promise());
+        fileKeys.push(obj.Key);
+      });
+      const fileContents = await Promise.all(filePromises);
+      
+      var i: number;
+        for (i = 0; i < fileContents.length; i++) {
+          fs.writeFileSync(path.join(process.cwd(), fileKeys[i]), fileContents[i].Body.toString());
+          console.log("content string: ", path.join(process.cwd(), fileKeys[i]), fileContents[i].Body.toString());
+        }
+        console.log("S3 read resolved!", fileContents)
+        resolve(true)
+
+        return { fileContents: fileContents, fileKeys: fileKeys };  
+    }).then((data) => {
+      console.log("second wind");
+      // 
+      /*
+      var i: number;
+      for (i = 0; i < data.fileContents.length; i++) {
+        fs.writeFileSync(path.join(process.cwd(), data.fileKeys[i]), data.fileContents[i].Body.toString());
+        console.log("content string: ", path.join(process.cwd(), data.fileKeys[i]), data.fileContents[i].Body.toString());
+      }
+      console.log("S3 read resolved!", data.fileContents)
+      resolve(true)
+      */
     }).catch((err) => {
       console.error(`Error with Listing Objects in File Server: ${err}`);
       reject(false);

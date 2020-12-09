@@ -3,7 +3,6 @@ import path from 'path';
 import matter from 'gray-matter';
 import remark from 'remark';
 import html from 'remark-html';
-import { String } from 'aws-sdk/clients/cloudtrail';
 
 // get current posts folder under current working directory
 const postsDirectory = path.join(process.cwd(), 'posts');
@@ -20,6 +19,7 @@ export function getSortedPostsData() {
     // read markdwon file as a string
     const fullPath = path.join(postsDirectory, fileName);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
+    console.log('fileContents: ', fileContents);
 
     // use gray-matter to parse the post metadata section
     const matterResult = matter(fileContents);

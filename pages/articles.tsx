@@ -40,9 +40,10 @@ export default function Articles({ allPostsData }:
 // Get static props will get the blog posts on static generation pre-render
 export const getStaticProps: GetStaticProps = async () => {
   // read blogs from the file server into the web server
-  readFiles();
+  await readFiles();
   // get all the Post Datas
   const allPostsData = getSortedPostsData();
+  console.log('allPostsData!!: ', allPostsData);
   return {
     props: {
       allPostsData

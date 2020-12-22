@@ -80,7 +80,6 @@ export function readFiles() {
     const fileNames = fs.readdirSync(postsDirectory);
     fileNames.forEach((filename) => {
       fs.unlinkSync(path.join(postsDirectory, filename));
-      console.log('filename: ', filename);
     });
 
     const bucket = process.env.BlogBucket;
@@ -106,18 +105,6 @@ export function readFiles() {
         resolve(true)
 
         return { fileContents: fileContents, fileKeys: fileKeys };  
-    }).then((data) => {
-      console.log("second wind");
-      // 
-      /*
-      var i: number;
-      for (i = 0; i < data.fileContents.length; i++) {
-        fs.writeFileSync(path.join(process.cwd(), data.fileKeys[i]), data.fileContents[i].Body.toString());
-        console.log("content string: ", path.join(process.cwd(), data.fileKeys[i]), data.fileContents[i].Body.toString());
-      }
-      console.log("S3 read resolved!", data.fileContents)
-      resolve(true)
-      */
     }).catch((err) => {
       console.error(`Error with Listing Objects in File Server: ${err}`);
       reject(false);

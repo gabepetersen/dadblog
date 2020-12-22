@@ -43,7 +43,6 @@ export const getStaticProps: GetStaticProps = async () => {
   await readFiles();
   // get all the Post Datas
   const allPostsData = getSortedPostsData();
-  console.log('allPostsData!!: ', allPostsData);
   return {
     props: {
       allPostsData

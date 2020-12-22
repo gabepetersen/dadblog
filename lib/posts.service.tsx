@@ -10,7 +10,9 @@ const postsDirectory = path.join(process.cwd(), 'posts');
 // get blog post data from markdown files
 export function getSortedPostsData() {
   // get file names under /posts
+  console.log("posts directory: ", postsDirectory);
   const fileNames = fs.readdirSync(postsDirectory);
+  console.log("filenames: ", fileNames);
   const allPostsData = fileNames.map((fileName) => {
 
     // remove the blog id and '.md' from filename to get id
@@ -25,7 +27,7 @@ export function getSortedPostsData() {
     const matterResult = matter(fileContents);
 
     return {
-      id, 
+      id,
       ...matterResult.data as {date: string, title: string, author: string}
     }
   });
@@ -68,16 +70,20 @@ export function getAllPostIds() {
 
 export async function getPostData(id: string) {
   // have to do a little filtering since we have renamed our blog files :/
+  console.log("posts directory in individual post: ", postsDirectory);
   const fileNames = fs.readdirSync(postsDirectory);
   var correctFile = '';
+  console.log("file names in individual post: ", fileNames);
   fileNames.forEach((filename) => {
     if (filename.includes(`${id}.md`)) {
       correctFile = filename;
-    }
+    } 
   })
   // make sure to get full path
   const fullPath = path.join(postsDirectory, correctFile);
+  console.log("full path in individual post: ", fullPath);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
+  console.log("file contents in individual post: ", fileContents);
 
   // use gray-matter to parse the post metadata section
   const matterResult = matter(fileContents);

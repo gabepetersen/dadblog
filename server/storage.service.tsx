@@ -76,6 +76,12 @@ export function readFiles() {
     newBucket();
     // get current posts folder under current working directory
     const postsDirectory = path.join(process.cwd(), 'posts');
+
+    // check if path exists - if not, make the directory
+    if (!fs.existsSync(postsDirectory)){
+      fs.mkdirSync(postsDirectory);
+    }
+
     // remove all the files before reading them from the storage
     const fileNames = fs.readdirSync(postsDirectory);
     fileNames.forEach((filename) => {

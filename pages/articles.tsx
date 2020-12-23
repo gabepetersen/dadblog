@@ -37,7 +37,6 @@ export default function Articles({ allPostsData }:
 }
 
 
-/*
 // Get static props will get the blog posts on static generation pre-render
 export const getStaticProps: GetStaticProps = async () => {
   // read blogs from the file server into the web server
@@ -49,11 +48,11 @@ export const getStaticProps: GetStaticProps = async () => {
       allPostsData
     },
     // will revalidate changes every 5 seconds
-    revalidate: 5
+    revalidate: 3
   }
 }
-*/
 
+/*
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // read blogs from the file server into the web server
   try {
@@ -70,4 +69,5 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 }
+*/
 

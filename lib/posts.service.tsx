@@ -10,9 +10,9 @@ const postsDirectory = path.join(process.cwd(), 'posts');
 // get blog post data from markdown files
 export function getSortedPostsData() {
   // get file names under /posts
-  console.log("posts directory for articles: ", postsDirectory);
+  console.log("\nposts directory for articles: ", postsDirectory);
   const fileNames = fs.readdirSync(postsDirectory);
-  console.log("filenames for articles: ", fileNames);
+  console.log("\nfilenames for articles: ", fileNames);
   const allPostsData = fileNames.map((fileName) => {
 
     // remove the blog id and '.md' from filename to get id
@@ -21,7 +21,6 @@ export function getSortedPostsData() {
     // read markdwon file as a string
     const fullPath = path.join(postsDirectory, fileName);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
-    console.log('file contents for articles: ', fileContents);
 
     // use gray-matter to parse the post metadata section
     const matterResult = matter(fileContents);
@@ -70,10 +69,10 @@ export function getAllPostIds() {
 
 export async function getPostData(id: string) {
   // have to do a little filtering since we have renamed our blog files :/
-  console.log("posts directory in individual post: ", postsDirectory);
+  console.log("\nposts directory in individual post: ", postsDirectory);
   const fileNames = fs.readdirSync(postsDirectory);
   var correctFile = '';
-  console.log("file names in individual post: ", fileNames);
+  console.log("\nfile names in individual post: ", fileNames);
   fileNames.forEach((filename) => {
     if (filename.includes(`${id}.md`)) {
       correctFile = filename;
@@ -81,9 +80,8 @@ export async function getPostData(id: string) {
   })
   // make sure to get full path
   const fullPath = path.join(postsDirectory, correctFile);
-  console.log("full path in individual post: ", fullPath);
+  console.log("\nfull path in individual post: ", fullPath);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
-  console.log("file contents in individual post: ", fileContents);
 
   // use gray-matter to parse the post metadata section
   const matterResult = matter(fileContents);

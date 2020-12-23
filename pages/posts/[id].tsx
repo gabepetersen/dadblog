@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { GetStaticProps, GetStaticPaths } from 'next'
+import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
 
 import Layout from '../../components/layout';
 import { getAllPostIds, getPostData } from '../../lib/posts.service';
@@ -28,15 +28,28 @@ export default function Post({ postData }:
   );
 }
 
-
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  let postData;
+  try {
+    postData = await getPostData(context.params.id as string);
+  } catch (err) {
+    console.error('Error with fetching Post Data: ', err);
+  }
+  
+  // return postData for template to use 
+  return {
+    props: {
+      postData
+    }
+  };
+}
 /**
- * BIG NOTE: getStaticPaths and getStaticProps ONLYYY runs on the server
+ * BIG NOTE: getStaticPaths and getStaticProps ONLYYY runs when the pages are BUILDING
  * so don't put like client fetches in these functions - only write server side code
  */
+/*
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = getAllPostIds();
-  console.log("\n GET-STATIC-PATHS: ", paths);
-  console.log("\n\n");
   return {
     paths,
     fallback: false
@@ -45,14 +58,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 // getStaticPaths feeds params
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  console.log("\nGETSTATICPROPS CALLED\n");
   const postData = await getPostData(params.id as string);
   // return postData for template to use 
   return {
     props: {
       postData
     }
-    // will revalidate changes every 5 seconds
-    // revalidate: 5
   };
 }
+*/

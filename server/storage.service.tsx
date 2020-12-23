@@ -99,9 +99,9 @@ export function readFiles() {
       var i: number;
         for (i = 0; i < fileContents.length; i++) {
           fs.writeFileSync(path.join(process.cwd(), fileKeys[i]), fileContents[i].Body.toString());
-          console.log("content string: ", path.join(process.cwd(), fileKeys[i]), fileContents[i].Body.toString());
+          // console.log("content string: ", path.join(process.cwd(), fileKeys[i]), fileContents[i].Body.toString());
         }
-        console.log("S3 read resolved!", fileContents)
+        console.log("S3 read resolved!")
         resolve(true)
 
         return { fileContents: fileContents, fileKeys: fileKeys };  

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticProps } from 'next';
 
 import Layout from '../components/layout';
 import CustomDate from '../components/custom-date';
@@ -37,6 +37,7 @@ export default function Articles({ allPostsData }:
 }
 
 
+/*
 // Get static props will get the blog posts on static generation pre-render
 export const getStaticProps: GetStaticProps = async () => {
   // read blogs from the file server into the web server
@@ -49,6 +50,24 @@ export const getStaticProps: GetStaticProps = async () => {
     },
     // will revalidate changes every 5 seconds
     revalidate: 5
+  }
+}
+*/
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  // read blogs from the file server into the web server
+  try {
+    await readFiles();
+  } catch (err) {
+    console.error(err);
+  }
+  
+  // get all the Post Datas
+  const allPostsData = getSortedPostsData();
+  return {
+    props: {
+      allPostsData
+    }
   }
 }
 

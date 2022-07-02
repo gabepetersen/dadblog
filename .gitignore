@@ -12,7 +12,7 @@
 /posts/*.md
 
 # next.js
-/.next/
+/.next
 /out/
 
 # production

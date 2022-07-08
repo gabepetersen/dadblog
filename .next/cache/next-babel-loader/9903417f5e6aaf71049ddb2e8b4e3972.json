@@ -1,1 +1,0 @@
-{"ast":null,"code":"import React from \"react\";\nvar __jsx = React.createElement;\nimport Link from 'next/link';\nexport default function Custom404() {\n  return __jsx(React.Fragment, null, __jsx(\"h1\", null, \"404 - Page Not Found\"), __jsx(\"br\", null), __jsx(Link, {\n    href: \"/\"\n  }, \"Back to Home\"));\n}","map":null,"metadata":{},"sourceType":"module"}

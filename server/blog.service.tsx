@@ -1,10 +1,8 @@
 import { connectDB, disconnectDB } from './server.service';
-import { uploadFile } from '../server/storage.service';
 import Blog from './db-schemas/blog';
 import User from './db-schemas/user';
-
-import fs from 'fs';
-import path from 'path';
+import { Client, ClientErrorCode, APIErrorCode } from '@notionhq/client';
+import showdown from 'showdown';
 
 /**
  * Creates a blog object from the db schema and puts it on the database
@@ -71,54 +69,73 @@ export async function createBlogOnDB(author: string, authorID: string, title: st
 }
 
 /**
- * Creates a blog file and uploads it to AWS S3 instance
- * @param text 
- * @param author 
- * @param title 
+ * Uploads the blog content to the Notion DB
+ * @param text
+ * @param author
+ * @param title
+ * @param blogID
  * @returns Promise<any>
  */
-export async function createBlogOnFS(text: string, author: string, title: string, blogID: string): Promise<any> {
-  return new Promise<any>((resolve, reject) => {
+export async function createBlogOnNotion(text: string, author: string, title: string, blogID: string): Promise<any> {
+  return new Promise<any>(async (resolve, reject) => {
+    if (process.env.NODE_ENV !== 'production') {
+      require('dotenv').config();
+    }
 
-    const postsDirectory = path.join(process.cwd(), 'posts');
+    const pageKey = title.toLowerCase().replace(/ /g, '-'); // To do - make sure this is not already a title
+    const date = Date.now() + '';
+    // Refer to https://www.npmjs.com/package/showdown for options list
+    const mkConverter = new showdown.Converter({
+      ghCompatibleHeaderId: true,
+      parseImgDimensions: true,
+      simplifiedAutoLink: true,
+      excludeTrailingPunctuationFromURLs: true,
+      literalMidWordAsterisks: true,
+      strikethrough: true,
+      tasklists: true,
+      simpleLineBreaks: true,
+      requireSpaceBeforeHeadingText: true,
+      emoji: true, // refer to https://github.com/showdownjs/showdown/wiki/Emojis
+    });
+    const contentHTML = mkConverter.makeHtml(text);
 
-    // create url id / filename with replacing spaces and
-    const url = blogID + '_' + title.toLowerCase().replace(/ /g, '-');
-    // read all blogs in file, and check if there's no duplicate titles
-    const fileNames = fs.readdirSync(postsDirectory);
-    fileNames.forEach((filename) => {
-      // check if post already exists
-      if (filename.replace(/\.md$/, '') == url) {
-        // send not acceptable if post exists already
-        reject({ text: 'Title already exists', code: 406 });
+    try {
+      const notion = new Client({ auth: process.env.NOTION_DB_KEY })
+      const databaseId = process.env.NOTION_POST_TABLE_ID;
+
+      const response = await notion.pages.create({
+        parent: { database_id: databaseId },
+        properties: {
+          title: { title: [{ "text": { "content": title } }] },
+          pageKey: { "rich_text": [{ "text": { "content": pageKey } }] },
+          author: { "rich_text": [{ "text": { "content": author } }] },
+          date: { "rich_text": [{ "text": { "content": date } }] },
+          content: { "rich_text": [{ "text": { "content": contentHTML } }] },
+          blogID: { "rich_text": [{ "text": { "content": blogID } }] },
+        },
+      });
+      // Fix later: refactor to remove this ts-ignore for broken notion types
+      // @ts-ignore
+      if (!response.url) {
+        reject({ text: 'Could not upload data to Notion', code: 400 })
       }
-    });
-    // create write stream
-    const fileStream = fs.createWriteStream((postsDirectory + '/' + url + '.md'));
-    fileStream.write('---\r\n');
-    fileStream.write('title: \'' + title + '\'\r\n');
-    fileStream.write('date: ' + Date.now() + '\r\n');
-    fileStream.write('author: ' + author + '\r\n');
-    fileStream.write('---\r\n\r\n');
-    fileStream.write(text);
-    fileStream.end();
-    // create finish event callback - send created code
-    fileStream.on('finish', async () => {
-      try {
-        // upload the file to s3
-        if (await uploadFile((postsDirectory + '/' + url + '.md'), (url + '.md'))) {
-          // if file is uploaded successfully - delete from local
-          fs.unlinkSync((postsDirectory + '/' + url + '.md'));
-        }
-      } catch (err) {
-        console.error(err);
-        reject({ text: `Error in uploading to file server: ${err}`, code: 400 });
+      resolve({ text: 'Successfully uploaded to Notion DB', code: 201 });
+    } catch (err) {
+      var message = '';
+      switch (err.code) {
+        case ClientErrorCode.RequestTimeout:
+          message = 'Timed out connecting to notion DB: '
+          break
+        case APIErrorCode.ObjectNotFound:
+          message = 'Could not find notion DB page: ';
+          break
+        case APIErrorCode.Unauthorized:
+          message = 'Unauthorized access to notion DB: ';
+          break;
+        default:
+          message = 'Error connecting to notion instance: ';
       }
-      resolve({ text: `${(url + '.md')} Successfully Uploaded`, code: 201 });
-    });
-    // create errror event callback
-    fileStream.on('error', (err) => {
-      reject({ text: `Error in Writing File: ${err}`, code: 400 });
-    });
+      reject({ text: (message + err.name + '-' + err.message + ': { ' + err.cause + '}'), code: 400 });
+    }
   });
 }

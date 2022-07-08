@@ -16,14 +16,14 @@ export default function Post({ postData }:
       <Head>
         <title>{postData.title}</title>
       </Head>
-      <article>
+      <section>
         <h1 className={utilStyles.headingXl}>{postData.title}</h1>
         <div className={utilStyles.lightText}>
           <CustomDate ms={postData.date} />
           <p>By {postData.author}</p>
         </div>
         <div dangerouslySetInnerHTML={{ __html: postData.contentHTML }}></div>
-      </article>
+      </section>
     </Layout>
   );
 }

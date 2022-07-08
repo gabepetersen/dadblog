@@ -1,9 +1,9 @@
 export function confirmTemplate(id) {
   return {
-    subject: 'Confirm Email For DadBlog',
+    subject: 'Confirm Email For Mutual Threads',
     html: `
       <a href='${process.env.CLIENT_URL}confirm-email/${id}'>
-        click to confirm email
+        Click to confirm email
       </a>
     `,      
     text: `Copy and paste this link: ${process.env.CLIENT_URL}confirm-email/${id}`

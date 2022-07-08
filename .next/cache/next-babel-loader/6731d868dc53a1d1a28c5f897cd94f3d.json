@@ -1,1 +1,0 @@
-{"ast":null,"code":"import { overlay } from './overlay';\nexport const modal = {\n  unmountLogin: null,\n\n  show() {\n    this.unmountLogin = overlay.create();\n  },\n\n  hide() {\n    this.unmountLogin();\n  }\n\n};","map":null,"metadata":{},"sourceType":"module"}

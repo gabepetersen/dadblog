@@ -1,8 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import remark from 'remark';
-import html from 'remark-html';
+import { Client, ClientErrorCode, APIErrorCode } from '@notionhq/client';
 
 // get current posts folder under current working directory
 const postsDirectory = path.join(process.cwd(), 'posts');
@@ -68,33 +67,53 @@ export function getAllPostIds() {
 }
 
 export async function getPostData(id: string) {
-  // have to do a little filtering since we have renamed our blog files :/
-  console.log("\nposts directory in individual post: ", postsDirectory);
-  const fileNames = fs.readdirSync(postsDirectory);
-  var correctFile = '';
-  console.log("\nfile names in individual post: ", fileNames);
-  fileNames.forEach((filename) => {
-    if (filename.includes(`${id}.md`)) {
-      correctFile = filename;
-    } 
-  })
-  // make sure to get full path
-  const fullPath = path.join(postsDirectory, correctFile);
-  console.log("\nfull path in individual post: ", fullPath);
-  const fileContents = fs.readFileSync(fullPath, 'utf8');
+  if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+  }
 
-  // use gray-matter to parse the post metadata section
-  const matterResult = matter(fileContents);
+  try {
+    const notion = new Client({ auth: process.env.NOTION_DB_KEY })
+    const databaseId = process.env.NOTION_POST_TABLE_ID;
 
-  // use remark to convert markdown to HTML string
-  const processedContent = await remark().use(html).process(matterResult.content)
-  const contentHTML = processedContent.toString();
+    const response = await notion.databases.query({
+      database_id: databaseId,
+      filter: {
+        property: 'pageKey',
+        rich_text: {
+          equals: id
+        }
+      }
+    });
+    
+    const pageID = response.results[0].id;
+    // Fix later: refactor to remove this ts-ignore for broken notion types
+    // @ts-ignore
+    const pageProperties = response.results[0].properties;
 
-  // Combine data with the id and contentHTML
-
-  return {
-    id, 
-    contentHTML,
-    ...matterResult.data as {date: string, title: string, author: string}
+    return {
+      id: pageID,
+      pageKey: pageProperties.pageKey.rich_text[0].plain_text,
+      title: pageProperties.title.title[0].plain_text,
+      date: pageProperties.date.rich_text[0].plain_text,
+      author: pageProperties.author.rich_text[0].plain_text,
+      contentHTML: pageProperties.content.rich_text[0].plain_text
+    }
+  } catch (err) {
+    var message = '';
+    switch (err.code) {
+      case ClientErrorCode.RequestTimeout:
+        message = 'Timed out connecting to notion DB: '
+        break
+      case APIErrorCode.ObjectNotFound:
+        message = 'Could not find notion DB page: ';
+        break
+      case APIErrorCode.Unauthorized:
+        message = 'Unauthorized access to notion DB: ';
+        break;
+      default:
+        message = 'Error connecting to notion instance: ';
+    }
+    console.error(message, err.name, err.message, err.cause);
+    return null;
   }
 }

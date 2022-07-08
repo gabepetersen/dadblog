@@ -2,6 +2,7 @@ import { connectDB, disconnectDB } from './server.service';
 import Blog from './db-schemas/blog';
 import User from './db-schemas/user';
 import { Client, ClientErrorCode, APIErrorCode } from '@notionhq/client';
+import showdown from 'showdown';
 
 /**
  * Creates a blog object from the db schema and puts it on the database
@@ -68,10 +69,11 @@ export async function createBlogOnDB(author: string, authorID: string, title: st
 }
 
 /**
- * Creates a blog file and uploads it to AWS S3 instance
- * @param text 
- * @param author 
- * @param title 
+ * Uploads the blog content to the Notion DB
+ * @param text
+ * @param author
+ * @param title
+ * @param blogID
  * @returns Promise<any>
  */
 export async function createBlogOnNotion(text: string, author: string, title: string, blogID: string): Promise<any> {
@@ -82,6 +84,20 @@ export async function createBlogOnNotion(text: string, author: string, title: st
 
     const pageKey = title.toLowerCase().replace(/ /g, '-'); // To do - make sure this is not already a title
     const date = Date.now() + '';
+    // Refer to https://www.npmjs.com/package/showdown for options list
+    const mkConverter = new showdown.Converter({
+      ghCompatibleHeaderId: true,
+      parseImgDimensions: true,
+      simplifiedAutoLink: true,
+      excludeTrailingPunctuationFromURLs: true,
+      literalMidWordAsterisks: true,
+      strikethrough: true,
+      tasklists: true,
+      simpleLineBreaks: true,
+      requireSpaceBeforeHeadingText: true,
+      emoji: true, // refer to https://github.com/showdownjs/showdown/wiki/Emojis
+    });
+    const contentHTML = mkConverter.makeHtml(text);
 
     try {
       const notion = new Client({ auth: process.env.NOTION_DB_KEY })
@@ -94,7 +110,7 @@ export async function createBlogOnNotion(text: string, author: string, title: st
           pageKey: { "rich_text": [{ "text": { "content": pageKey } }] },
           author: { "rich_text": [{ "text": { "content": author } }] },
           date: { "rich_text": [{ "text": { "content": date } }] },
-          content: { "rich_text": [{ "text": { "content": text } }] },
+          content: { "rich_text": [{ "text": { "content": contentHTML } }] },
           blogID: { "rich_text": [{ "text": { "content": blogID } }] },
         },
       });

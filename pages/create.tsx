@@ -57,20 +57,17 @@ export default function Create() {
 
   return (
     <Layout>
-      <h2>Instructions for Creating a Post</h2>
-      
-      <p>#text for large heading</p>
-      <p>####text for small heading</p>
-      <p>**text** for <b>bold</b></p>
-      <p>*text* for <i>italic</i></p>  
-      <p>&gt; text for blockquote</p>
-      <p>1. text for ordered list</p>
-      <p>- text for unordered list</p>
-      <p>--- on newline for horizontal line</p>
-      <p>[title](https://www.example.com) for a link</p>
-      <p>You can find more formatting options at <Link href="https://www.markdownguide.org/cheat-sheet/">Markdown Cheatsheet</Link></p>   
-      <br />
-      <h2>Post Create Form</h2>
+      <h1>Write Post</h1>
+      <p>For the new Mutual Threads update, I have decided to use <Link href="https://github.com/showdownjs/showdown/wiki">Showdown</Link> to give y'all a little more flexibility in posting content. Please read <Link href="https://github.com/showdownjs/showdown/wiki/Showdown's-Markdown-syntax">Showdown Markdown Syntax</Link> on how to format your blog post. Along this documentation, keep in mind that most of the settings are enabled, so feel free to use auto-links, sized images, emojis, etc.</p>
+
+      <h2>Content Rules</h2>
+      <ul>
+        <li>No adult or hate content.</li>
+        <li>Provide warnings for stuff like excessive profanity</li>
+        <li>No special characters in the title.</li>
+        <li>I would advise against using H1 (# header) tags inside the content since the title is already formatted as an H1.</li>
+        <li>If you don't like how your post looks - reach out to me.</li>
+      </ul>
       <form className={styles.blogForm} onSubmit={handleSubmit}>
         <label htmlFor="btitle">Title</label><br />
         <input type="text" id="btitle" name="btitle" onChange={handleTitle} /><br />

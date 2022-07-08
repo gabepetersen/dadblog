@@ -1,9 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-  
-import { createBlogOnDB, createBlogOnFS } from '../../server/blog.service';
-
+import { createBlogOnDB, createBlogOnNotion } from '../../server/blog.service';
 import { v4 as uuidv4 } from 'uuid';
-
 import User from '../../server/db-schemas/user';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -18,10 +15,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
   const blogID = uuidv4();
-  
+
   // Promise all on uploading to file server and database
-  Promise.all([createBlogOnDB(userData.name, userData._id, title, blogID), createBlogOnFS(text, userData.name, title, blogID)])
-    .then((results) => {
+  Promise.all([
+    createBlogOnDB(userData.name, userData._id, title, blogID),
+    createBlogOnNotion(text, userData.name, title, blogID)]
+  ).then((results) => {
     // if both results were successful
     console.log(results);
     if ((results[0].code < 300) && (results[1].code < 300)) {

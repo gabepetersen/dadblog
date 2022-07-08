@@ -94,7 +94,7 @@ export async function getPostData(id: string) {
       id: pageID,
       pageKey: pageProperties.pageKey.rich_text[0].plain_text,
       title: pageProperties.title.title[0].plain_text,
-      date: pageProperties.date.date.start,
+      date: pageProperties.date.rich_text[0].plain_text,
       author: pageProperties.author.rich_text[0].plain_text,
       contentHTML: pageProperties.content.rich_text[0].plain_text
     }

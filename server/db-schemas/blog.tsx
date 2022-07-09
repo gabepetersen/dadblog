@@ -9,28 +9,28 @@ var blogSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  title: {
+  blogID: {
     type: String,
-    required: true
-  },
-  filePath: {
-    type: String,
-    required: true
-  },
-  date: {
-    type: Date,
-    required: true
-  },
-  stars: {
-    type: Array,
     required: true
   },
   comments: {
     type: Array,
     required: true
   },
+  date: {
+    type: Date,
+    required: true
+  },
   hidden: {
     type: Boolean,
+    required: true
+  },
+  stars: {
+    type: Array,
+    required: true
+  },
+  title: {
+    type: String,
     required: true
   }
 });

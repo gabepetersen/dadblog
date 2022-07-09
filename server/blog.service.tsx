@@ -26,16 +26,15 @@ export async function createBlogOnDB(author: string, authorID: string, title: st
     var newBlog = new Blog();
     newBlog.author = author;
     newBlog.authorID = authorID;
-    newBlog.title = title;
-    // this will be id_file-name.md
-    newBlog.filePath = (blogID + '_' + title.toLowerCase().replace(/ /g, '-') + '.md');
-    newBlog.date = Date.now();
-    newBlog.stars = [];
+    newBlog.blogID = blogID;
     newBlog.comments = [];
+    newBlog.date = Date.now();
     newBlog.hidden = false;
+    newBlog.stars = [];
+    newBlog.title = title;
 
     // save the blog to db
-    newBlog.save(async function (err, blog) {
+    newBlog.save(async function (err: Error, blog) {
       if (err) {
         console.error(`Error Saving Blog to Database: ${err}`);
         reject({ text: `Error Saving Blog to Database: ${err}`, code: 400 });
@@ -48,7 +47,7 @@ export async function createBlogOnDB(author: string, authorID: string, title: st
           if (user) {
             // update the user's writtenBlog's list
             const newWrittenBlogs = user.writtenBlogs;
-            newWrittenBlogs.push(blog.filePath);
+            newWrittenBlogs.push(blog.blogID);
             await User.findOneAndUpdate(filter, { writtenBlogs: newWrittenBlogs });
             console.log('Blog Successfully Uploaded to Database');
             disconnectDB();

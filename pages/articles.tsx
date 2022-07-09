@@ -1,15 +1,9 @@
 import Link from 'next/link';
-import { GetServerSideProps, GetStaticProps } from 'next';
-
+import { GetStaticProps } from 'next';
 import Layout from '../components/layout';
 import CustomDate from '../components/custom-date';
 import { getSortedPostsData } from '../lib/posts.service';
-
 import utilStyles from '../styles/utils.module.scss';
-
-// NOTE: this is ONLY for the getStaticProps since this is server code
-// otherwise you will download all the .md files to the client
-import { readFiles } from '../server/storage.service';
 
 export default function Articles({ allPostsData }:
   { allPostsData: {id: string, date: number, title: string, author: string}[] }
@@ -36,11 +30,8 @@ export default function Articles({ allPostsData }:
   );
 }
 
-
 // Get static props will get the blog posts on static generation pre-render
 export const getStaticProps: GetStaticProps = async () => {
-  // read blogs from the file server into the web server
-  await readFiles();
   // get all the Post Datas
   const allPostsData = getSortedPostsData();
   return {
@@ -51,23 +42,3 @@ export const getStaticProps: GetStaticProps = async () => {
     revalidate: 3
   }
 }
-
-/*
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  // read blogs from the file server into the web server
-  try {
-    await readFiles();
-  } catch (err) {
-    console.error(err);
-  }
-  
-  // get all the Post Datas
-  const allPostsData = getSortedPostsData();
-  return {
-    props: {
-      allPostsData
-    }
-  }
-}
-*/
-

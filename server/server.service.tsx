@@ -18,7 +18,7 @@ export async function connectDB() {
 
   try {
     // connect to the database
-    const connection = await mongoose.connect(connectionString, { useNewUrlParser: true, });
+    const connection = await mongoose.connect(connectionString);
     console.log("Database Connected");
     return connection;
   } catch (err) {

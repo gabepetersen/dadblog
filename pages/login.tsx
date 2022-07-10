@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 
 import Layout from '../components/layout';
 import { ToastContainer, ToastController } from '../components/toast';
-import { newFormField } from '../lib/input.service';
+import { useFormField } from '../lib/input.service';
 import { apiLogin, apiSignup, sendConfirmation, storeToken, storeRole } from '../lib/auth.service';
 
 import styles from './login.module.scss';
@@ -14,12 +14,12 @@ export default function Login() {
   const router = useRouter();
 
   // Ok this is really messy but IT WILL HAVE TO WORK FOR NOW
-  const emailLogin = newFormField();
-  const passwordLogin = newFormField();
-  const nameSignup = newFormField();
-  const emailSignup = newFormField();
-  const password1Signup = newFormField();
-  const password2Signup = newFormField();
+  const emailLogin = useFormField();
+  const passwordLogin = useFormField();
+  const nameSignup = useFormField();
+  const emailSignup = useFormField();
+  const password1Signup = useFormField();
+  const password2Signup = useFormField();
 
 
   const handleLogin = async (event: React.FormEvent) => {

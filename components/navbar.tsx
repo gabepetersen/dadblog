@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 
@@ -9,6 +10,8 @@ import Button from './button';
 
 import styles from './navbar.module.scss';
 import utilStyles from '../styles/utils.module.scss';
+import moon from '../public/images/moon.png'
+import sun from '../public/images/sun.png';
 
 export default function Navbar({ home }: { home: boolean }) {
 
@@ -36,7 +39,12 @@ export default function Navbar({ home }: { home: boolean }) {
         </motion.li>
         <motion.li variants={nav_item}>
           <Button style="primary" callback={() => setTheme(theme == 'dark' ? 'light' : 'dark')}>
-            {theme == 'dark' ? 'Day Mode' : 'Night Mode'}
+            <Image
+              src={theme === 'dark' ? sun : moon}
+              alt={theme === 'dark' ? "day mode" : "dark mode"}
+              width="30px"
+              height="30px"
+            />
           </Button>
         </motion.li>
         <WriteControl></WriteControl>

@@ -37,8 +37,16 @@ export default function Navbar({ home }: { home: boolean }) {
           </a>
           </Link>
         </motion.li>
+        <WriteControl></WriteControl>
         <motion.li variants={nav_item}>
-          <Button style="primary" callback={() => setTheme(theme == 'dark' ? 'light' : 'dark')}>
+          <LoginControl></LoginControl>
+        </motion.li>
+        <motion.li variants={nav_item}>
+          <Button
+            style="primary"
+            ariaLabel={theme === 'dark' ? "day mode" : "dark mode"}
+            callback={() => setTheme(theme == 'dark' ? 'light' : 'dark')}
+          >
             <Image
               src={theme === 'dark' ? sun : moon}
               alt={theme === 'dark' ? "day mode" : "dark mode"}
@@ -46,10 +54,6 @@ export default function Navbar({ home }: { home: boolean }) {
               height="30px"
             />
           </Button>
-        </motion.li>
-        <WriteControl></WriteControl>
-        <motion.li variants={nav_item}>
-          <LoginControl></LoginControl>
         </motion.li>
       </motion.ul>
     </nav>

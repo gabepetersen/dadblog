@@ -37,54 +37,10 @@ export default function Layout({ children, home }: { children: React.ReactNode, 
       {/* Inserts NavBar on Every Page */}
       <Navbar home={home}></Navbar>
 
-      {/* Displays Header as Link Conditionally */}
-      {/*
-      <header className={styles.header}>
-        {home ? (
-          <>
-            <img
-              src="/images/linkedin.jpg"
-              className={`${styles.headerHomeImage} ${utilStyles.borderCircle}`}
-              alt={name}
-            />
-            <h1 className={utilStyles.heading2XL}>{name}</h1>
-          </>
-        ) : (
-          <>
-            <Link href="/">
-              <a>
-                <img
-                  src="/images/linkedin.jpg"
-                  className={`${styles.headerImage} ${utilStyles.borderCircle}`}
-                  alt={name}
-                />  
-              </a>
-            </Link>
-            <h2 className={utilStyles.headingLg}>
-              <Link href="/">
-                <a className={utilStyles.colorInherit}>{name}</a>
-              </Link>
-            </h2>
-          </>
-        )}
-      </header>
-        */}
-
       {/* Main Content of Page */}
       <main className={styles.main}>
         {children}
       </main>
-
-      {/* Conditional Back Link */} 
-      {/*
-      {!home && (
-        <div className={styles.backToHome}>
-          <Link href="/">
-            <a>← Back to home</a>
-          </Link>
-        </div>
-      )}
-      */}
     </div>   
   );
 }

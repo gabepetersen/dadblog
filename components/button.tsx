@@ -1,35 +1,18 @@
 import styles from './button.module.scss';
-import { motion } from 'framer-motion';
 
-export default function Button({ children, style, callback }:
-  { children: React.ReactNode, style: string, callback: (() => any) })
+export default function Button({ children, style, ariaLabel, callback }:
+  { children: React.ReactNode, style: string, ariaLabel: string, callback: (() => any) })
 {
-  var styleButton;
-  if (style == 'primary') {
-    styleButton = styles.primary;
-  } else if (style == 'secondary') {
-    styleButton = styles.secondary;
-  } else {
-    styleButton = styles.primary;
-    console.warn('Button style not specified correctly - default to \'primary\' style'); 
+  const attributes = {
+    className: style === 'secondary' ? styles.btn__secondary : styles.btn__primary,
+    'aria-label': ariaLabel.length ? ariaLabel : null,
   }
+
   return (
     <>
-      <motion.button
-        className={styleButton}
-        onClick={callback}
-        // define hover and tap events for button
-        whileHover={{
-          scale: 1.1,
-          borderRadius: '20px',
-          boxShadow: '5px 5px 1px 1px #000000'
-        }}
-        whileTap={{
-          scale: 0.8
-        }}
-      >
+      <button type="button" onClick={callback} {...attributes}>
         {children}
-      </motion.button>
+      </button>
     </>
   );
 }

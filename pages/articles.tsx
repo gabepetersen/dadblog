@@ -4,18 +4,19 @@ import Layout from '../components/layout';
 import CustomDate from '../components/custom-date';
 import { getSortedPostsData } from '../lib/posts.service';
 import utilStyles from '../styles/utils.module.scss';
+import { MongoBlogPost } from '../lib/types';
 
 export default function Articles({ allPostsData }:
-  { allPostsData: {id: string, date: number, title: string, author: string}[] }
+  { allPostsData: MongoBlogPost[] }
 )  {
   return (
     <Layout>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
           <h2 className={utilStyles.headingLg}>Blog</h2>
           <ul className={utilStyles.list}>
-            {allPostsData.map(({ id, date, title, author }) => (
-                <li className={utilStyles.listItem} key={id}>
-                  <Link href={`/posts/${id}`}>
+            {allPostsData.map(({ blogID, date, title, author }) => (
+                <li className={utilStyles.listItem} key={parseInt(blogID)}>
+                  <Link href={`/posts/${blogID}`}>
                     <a>{title}</a>
                   </Link>
                   <br />
@@ -33,7 +34,8 @@ export default function Articles({ allPostsData }:
 // Get static props will get the blog posts on static generation pre-render
 export const getStaticProps: GetStaticProps = async () => {
   // get all the Post Datas
-  const allPostsData = getSortedPostsData();
+  const allPostsData = await getSortedPostsData();
+
   return {
     props: {
       allPostsData

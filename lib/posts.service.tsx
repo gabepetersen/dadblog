@@ -1,71 +1,41 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
+import Blog from '../server/db-schemas/blog';
+import { connectDB, disconnectDB } from '../server/server.service';
 import { Client, ClientErrorCode, APIErrorCode } from '@notionhq/client';
 
-// get current posts folder under current working directory
-const postsDirectory = path.join(process.cwd(), 'posts');
+/**
+ * Returns an array of all the blog post data from MongoDB
+ * @returns Promise<Array>
+ */
+export async function getSortedPostsData() {
+  try {
+    // connect to the database
+    await connectDB();
 
-// get blog post data from markdown files
-export function getSortedPostsData() {
-  // get file names under /posts
-  console.log("\nposts directory for articles: ", postsDirectory);
-  const fileNames = fs.readdirSync(postsDirectory);
-  console.log("\nfilenames for articles: ", fileNames);
-  const allPostsData = fileNames.map((fileName) => {
-
-    // remove the blog id and '.md' from filename to get id
-    const id = fileName.split('_')[1].replace(/\.md$/, '');
-
-    // read markdwon file as a string
-    const fullPath = path.join(postsDirectory, fileName);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-
-    // use gray-matter to parse the post metadata section
-    const matterResult = matter(fileContents);
-
-    return {
-      id,
-      ...matterResult.data as {date: string, title: string, author: string}
-    }
-  });
-  // sort posts by date
-  return allPostsData.sort((a, b) => {
-    if(a.date < b.date) {
-      return 1;
-    } else {
-      return -1;
-    }
-  });
+    const allPostsData = await Blog.find({}, { _id: 0 }).lean();
+    disconnectDB();
+    // sort posts by date - and convert the date to be serialized properly
+    return allPostsData.map((post) => {
+      var postNew = post;
+      postNew.date = post.date.getTime();
+      return postNew;
+    }).sort((a, b) => {
+      if (a.date < b.date) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+  } catch (err) {
+    console.error('\nCould not fetch blog posts from DB: ', err, '\n');
+    return {};
+  }
 }
 
-export function getAllPostIds() {
-  // get all file names under /posts
-  const fileNames = fs.readdirSync(postsDirectory)
-  /**
-    Returns array that looks like this:
-    [
-      {
-        params: {
-          id: 'ssg-ssr'
-        }
-      },
-      {
-        params: {
-          id: 'pre-rendering'
-        }
-      }
-    ]
-   */
-  return fileNames.map((fileName) => {
-    return {
-      params: {
-        id: fileName.split('_')[1].replace(/\.md$/, '')
-      }
-    }
-  })
-}
-
+/**
+ * Returns an object with blog post data and the content from Notion
+ * @param id
+ * @returns Object
+ */
 export async function getPostData(id: string) {
   if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();

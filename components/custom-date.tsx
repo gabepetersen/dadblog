@@ -1,5 +1,4 @@
-
-export default function CustomDate({ ms }: { ms: number | string }) {
+export default function CustomDate({ ms }: { ms: number | string | Date }) {
   if (typeof ms === 'string') {
     ms = parseInt(ms);
   }

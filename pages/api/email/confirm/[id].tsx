@@ -9,13 +9,9 @@ import User from '../../../../server/db-schemas/user';
 
 // This function basically sets the User confirmed value to true
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-
-  // get id
   const id = req.query.id;
-  console.log("Here is the other id: " + id);
 
-   // connect to the database
-   try {
+  try {
     await connectDB();
   } catch (err) {
     console.error(`Error Connecting to Database: ${err}`);
@@ -25,7 +21,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   var user = null;
   try {
     user = await User.findById(id);
-    console.log('user: ', user);
   } catch (err) {
     res.status(400).json({ text: `Could Not Get User: ${err}`, code: 0 });
   }
@@ -47,5 +42,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   await disconnectDB();
-
 }

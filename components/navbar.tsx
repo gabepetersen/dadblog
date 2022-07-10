@@ -39,7 +39,6 @@ export default function Navbar({ home }: { home: boolean }) {
             {theme == 'dark' ? 'Day Mode' : 'Night Mode'}
           </Button>
         </motion.li>
-        <motion.li variants={nav_item}><Link href="/articles">Articles</Link></motion.li>
         <WriteControl></WriteControl>
         <motion.li variants={nav_item}>
           <LoginControl></LoginControl>

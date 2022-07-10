@@ -7,7 +7,9 @@ import React from 'react';
 
 const Theme = React.createContext(null);
 
-export const getThemeController = () => React.useContext(Theme);
+export function useThemeController() {
+  return React.useContext(Theme);
+}
 
 export function ThemeProvider({ theme, children }) {
   const [val, setTheme] = React.useState(theme);

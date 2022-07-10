@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 
 import { siteTitle } from './layout';
-import { getThemeController } from './theme-provider';
+import { useThemeController } from './theme-provider';
 import { logout, checkLogin, getRole } from '../lib/auth.service';
 import Button from './button';
 
@@ -13,7 +13,7 @@ import utilStyles from '../styles/utils.module.scss';
 export default function Navbar({ home }: { home: boolean }) {
 
   // get the theme state and function to change it
-  const [theme, setTheme] = getThemeController();
+  const [theme, setTheme] = useThemeController();
   
   return (
     <nav>

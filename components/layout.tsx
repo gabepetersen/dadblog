@@ -3,7 +3,7 @@ import Head from 'next/head';
 
 // component imports
 import Navbar from './navbar';
-import { getThemeController } from './theme-provider';
+import { useThemeController } from './theme-provider';
 
 // style imports
 import styles from './layout.module.scss';
@@ -17,7 +17,7 @@ export const siteTitle = 'Mutual Threads'
 export default function Layout({ children, home }: { children: React.ReactNode, home?: boolean }) {
 
   // get the theme state and function to change it
-  const [theme] = getThemeController();
+  const [theme] = useThemeController();
 
   return (
     <div className={`${styles.container} ${theme == 'dark' ? dark.theme : light.theme}`} id="light">

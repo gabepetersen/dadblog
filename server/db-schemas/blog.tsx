@@ -25,12 +25,18 @@ var blogSchema = new mongoose.Schema({
     type: Boolean,
     required: true
   },
+  pageKey: {
+    type: String,
+    unique: true,
+    required: true
+  },
   stars: {
     type: Array,
     required: true
   },
   title: {
     type: String,
+    unique: true,
     required: true
   }
 });

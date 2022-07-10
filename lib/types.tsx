@@ -5,6 +5,7 @@ export interface MongoBlogPost {
   comments: Array<any>,
   date: Date,
   hidden: boolean,
+  pageKey: string,
   stars: Array<string>,
   title: string,
 }

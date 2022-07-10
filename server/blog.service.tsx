@@ -3,6 +3,7 @@ import Blog from './db-schemas/blog';
 import User from './db-schemas/user';
 import { Client, ClientErrorCode, APIErrorCode } from '@notionhq/client';
 import showdown from 'showdown';
+import { MongoBlogPost } from '../lib/types';
 
 /**
  * Creates a blog object from the db schema and puts it on the database
@@ -30,11 +31,12 @@ export async function createBlogOnDB(author: string, authorID: string, title: st
     newBlog.comments = [];
     newBlog.date = Date.now();
     newBlog.hidden = false;
+    newBlog.pageKey = title.toLowerCase().replace(/ /g, '-'); // To do - make sure this is not already a title
     newBlog.stars = [];
     newBlog.title = title;
 
     // save the blog to db
-    newBlog.save(async function (err: Error, blog) {
+    newBlog.save(async function (err: Error, blog: MongoBlogPost) {
       if (err) {
         console.error(`Error Saving Blog to Database: ${err}`);
         reject({ text: `Error Saving Blog to Database: ${err}`, code: 400 });

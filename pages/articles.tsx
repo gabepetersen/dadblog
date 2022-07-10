@@ -14,17 +14,17 @@ export default function Articles({ allPostsData }:
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
           <h2 className={utilStyles.headingLg}>Blog</h2>
           <ul className={utilStyles.list}>
-            {allPostsData.map(({ blogID, pageKey, date, title, author }) => (
-                <li className={utilStyles.listItem} key={parseInt(blogID)}>
-                  <Link href={`/posts/${pageKey}`}>
-                    <a>{title}</a>
-                  </Link>
-                  <br />
-                  <small>
-                    {author}&nbsp;&nbsp;/&nbsp;&nbsp;<CustomDate ms={date} />
-                  </small>
-                </li>
-              ))}
+            {allPostsData.map(({ blogID, pageKey, date, title, author, hidden }) => !hidden ? (
+              <li className={utilStyles.listItem} key={parseInt(blogID)}>
+                <Link href={`/posts/${pageKey}`}>
+                  <a>{title}</a>
+                </Link>
+                <br />
+                <small>
+                  {author}&nbsp;&nbsp;/&nbsp;&nbsp;<CustomDate ms={date} />
+                </small>
+              </li>
+            ) : null )}
           </ul>
       </section>
     </Layout>

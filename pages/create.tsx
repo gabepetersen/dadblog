@@ -31,7 +31,7 @@ export default function Create() {
           ToastController.show(`Error Posting Blog ${data.text}`);
         } else {
           ToastController.show('Succesfully Uploaded Blog');
-          router.push('/articles');
+          router.push('/');
         }
       } else {
         console.log("Not Logged In!");

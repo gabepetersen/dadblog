@@ -7,10 +7,15 @@ import sun from '../public/images/sun.png';
 const themeStorageKey = 'theme';
 
 export default function ThemeButton() {
-  const [theme, setTheme] = useState(getThemeColor());
+  const [theme, setTheme] = useState(document.body.dataset.theme);
 
   // update coloring when theme changes
-  useEffect(() => setThemeColor(theme), [theme]);
+  useEffect(() => {
+    document.body.dataset.theme = theme;
+    if (theme === 'light' || theme === 'dark') {
+      window.localStorage.setItem(themeStorageKey, theme);
+    }
+  }, [theme]);
 
   return (
     <Button
@@ -26,26 +31,4 @@ export default function ThemeButton() {
       />
     </Button>
   );
-}
-
-function setThemeColor(theme: string) {
-  document.body.dataset.theme = theme;
-  if (typeof window !== 'undefined' && (theme === 'light' || theme === 'dark')) {
-    window.localStorage.setItem(themeStorageKey, theme);
-  }
-}
-
-function getThemeColor() {
-  var theme = 'light'
-  if (typeof window !== 'undefined') {
-    const storedTheme = window.localStorage.getItem(themeStorageKey);
-    if (storedTheme) {
-      console.log("grabbed stored theme: ", storedTheme)
-      theme = storedTheme;
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      theme = 'dark';
-      console.log("grabbed preferred theme: ", theme)
-    }
-  }
-  return theme;
 }

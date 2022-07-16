@@ -1,14 +1,15 @@
 import Link from 'next/link';
-
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import { siteTitle } from './layout';
 import { logout, checkLogin, getRole } from '../lib/auth.service';
-import ThemeButton from './theme-button';
-
 import styles from './navbar.module.scss';
 import utilStyles from '../styles/utils.module.scss';
-
+// disable ssr for ThemeButton and specify dynamic import
+const ThemeButton = dynamic(() => import('./theme-button'), {
+  ssr: false
+})
 
 export default function Navbar({ home }: { home: boolean }) {
   

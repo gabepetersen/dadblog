@@ -1,19 +1,17 @@
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
-
 import { siteTitle } from './layout';
-import { useThemeController } from './theme-provider';
 import { logout, checkLogin, getRole } from '../lib/auth.service';
-import Button from './button';
-
 import styles from './navbar.module.scss';
 import utilStyles from '../styles/utils.module.scss';
+// disable ssr for ThemeButton and specify dynamic import
+const ThemeButton = dynamic(() => import('./theme-button'), {
+  ssr: false
+})
 
 export default function Navbar({ home }: { home: boolean }) {
-
-  // get the theme state and function to change it
-  const [theme, setTheme] = useThemeController();
   
   return (
     <nav>
@@ -34,15 +32,12 @@ export default function Navbar({ home }: { home: boolean }) {
           </a>
           </Link>
         </motion.li>
-        <motion.li variants={nav_item}>
-          <Button style="primary" callback={() => setTheme(theme == 'dark' ? 'light' : 'dark')}>
-            {theme == 'dark' ? 'Day Mode' : 'Night Mode'}
-          </Button>
-        </motion.li>
-        <motion.li variants={nav_item}><Link href="/articles">Articles</Link></motion.li>
         <WriteControl></WriteControl>
         <motion.li variants={nav_item}>
           <LoginControl></LoginControl>
+        </motion.li>
+        <motion.li variants={nav_item}>
+          <ThemeButton/>
         </motion.li>
       </motion.ul>
     </nav>

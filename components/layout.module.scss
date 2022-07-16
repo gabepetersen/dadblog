@@ -1,4 +1,4 @@
-@import '../styles/global.scss';
+@use '../styles/abstracts/variables' as *;
 
 .container {
   max-width: 100%;

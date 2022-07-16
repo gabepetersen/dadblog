@@ -51,39 +51,37 @@ export default function Login() {
     // prevent page from reloading
     event.preventDefault();
     signupForm.reset();
-    ToastController.show("signing you up!");
     // handle signup in auth service
-    if (password1Signup.value == password2Signup.value) {
-      // handy little email validation from: https://www.w3resource.com/javascript/form/email-validation.php
-      if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(emailSignup.value)) {
-        const res = await apiSignup(nameSignup.value, emailSignup.value, password1Signup.value);
-        // show the signup result
-        console.log(res.text);
-        ToastController.show(res.text);
-        setTimeout(async () => {
-          // if the account is created succesfully
-          if (res.code) {
-            // send an email confirmation
-            const emailRes = await sendConfirmation(emailSignup.value);
-            console.log(emailRes);
-            // show the email result
-            ToastController.show(emailRes.text);
-            setTimeout(() => {         
-              storeToken(res.token);
-              storeRole(res.role);
-              // we are not going to user router.back() right now
-              router.push('/');
-            }, 2000);
-          }
-        }, 2000);
-        
-      } else {
-        console.log('invalid email');
-        ToastController.show('Email is Not Valid!');
-      }
-    } else {
-      console.log('passwords do not match');
+    if (password1Signup.value !== password2Signup.value) {
       ToastController.show("Passwords do not match!");
+      return;
+    }
+    // handy little email validation from: https://www.w3resource.com/javascript/form/email-validation.php
+    if (!(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(emailSignup.value))) {
+      ToastController.show('Email format is not valid');
+      return;
+    }
+
+    const res = await apiSignup(nameSignup.value, emailSignup.value, password1Signup.value);
+
+    switch (res.dbCode) {
+      case 11000:
+        ToastController.show(`Already a user with the same email: ${emailSignup.value}`);
+        return;
+    }
+
+    // if the account is created succesfully
+    if (res.code) {
+      ToastController.show(res.text);
+      const emailRes = await sendConfirmation(emailSignup.value);
+      // show the email result
+      ToastController.show(emailRes.text);
+      setTimeout(() => {
+        storeToken(res.token);
+        storeRole(res.role);
+        // we are not going to user router.back() right now
+        router.push('/');
+      }, 2000);
     }
   }
 

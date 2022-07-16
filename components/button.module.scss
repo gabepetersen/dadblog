@@ -1,10 +1,28 @@
-.primary {
+.btn__primary {
   color: var(--color-text);
   background-color: var(--color-page-background);
-  border: 2px solid var(--color-primary-accent);
 }
-.secondary {
+
+.btn__secondary {
   color: var(--color-page-background);
   background-color: var(--color-primary-accent);
-  border: 2px solid var(--color-subtext);
+}
+
+.btn__primary,
+.btn__secondary {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover,
+  &:focus,
+  &:focus-visible {
+    filter: invert(1);
+  }
+
+  &:focus:not(:focus-visible):not(:hover) {
+    filter: none;
+  }
 }

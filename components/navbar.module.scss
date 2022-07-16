@@ -1,6 +1,4 @@
-@import '../styles/global.scss';
-@import '../styles/theme.module.scss';
-
+@use '../styles/abstracts/variables' as *;
 
 .menu {
   list-style-type: none;
@@ -26,11 +24,8 @@
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  /* Align Items on Flex Main Axis */
   justify-content: space-around;
-  /* Vertically Center Items */
-  align-items: baseline;
-  /* gap between inner elements */
+  align-items: center;
   gap: 10px;
 }
 .menu_title {

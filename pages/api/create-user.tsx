@@ -41,7 +41,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   newUser.save(async function (err, user) {
     if (err) {
       // this error stems from demands not being met by the API or the database
-      res.status(406).json({ text: `Error uploading User Info: ${err}`, code: 0 });
+      res.status(406).json({ text: `Error uploading User Info: ${err.message}`, dbCode: err.code, code: 0 });
       await disconnectDB();
       return;
     } else {

@@ -1,0 +1,29 @@
+@use '../abstracts/variables' as *;
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0 auto;
+  height: 100%;
+
+  &,
+  &[data-theme="light"] {
+    --color-page-background: #{$theme-white};
+    --color-text: #{$theme-black};
+    --color-subtext: #{$theme-gray};
+    --color-shadow: #{$theme-lightgray};
+    --color-primary-accent: #{$theme-green-1};
+    --color-secondary-accent: #{$theme-yellow};
+  }
+
+  &[data-theme="dark"] {
+    --color-page-background: #{$theme-black};
+    --color-text: #{$theme-white};
+    --color-subtext: #{$theme-lightgray};
+    --color-shadow: #{$theme-gray};
+    --color-primary-accent: #{$theme-green-1};
+    --color-secondary-accent: #{$theme-gold};
+  }
+}

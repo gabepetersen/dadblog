@@ -1,22 +1,16 @@
 import Link from 'next/link';
-import Image from 'next/image';
+
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
-
 import { siteTitle } from './layout';
-import { useThemeController } from './theme-provider';
 import { logout, checkLogin, getRole } from '../lib/auth.service';
-import Button from './button';
+import ThemeButton from './theme-button';
 
 import styles from './navbar.module.scss';
 import utilStyles from '../styles/utils.module.scss';
-import moon from '../public/images/moon.png'
-import sun from '../public/images/sun.png';
+
 
 export default function Navbar({ home }: { home: boolean }) {
-
-  // get the theme state and function to change it
-  const [theme, setTheme] = useThemeController();
   
   return (
     <nav>
@@ -42,18 +36,7 @@ export default function Navbar({ home }: { home: boolean }) {
           <LoginControl></LoginControl>
         </motion.li>
         <motion.li variants={nav_item}>
-          <Button
-            style="primary"
-            ariaLabel={theme === 'dark' ? "day mode" : "dark mode"}
-            callback={() => setTheme(theme == 'dark' ? 'light' : 'dark')}
-          >
-            <Image
-              src={theme === 'dark' ? sun : moon}
-              alt={theme === 'dark' ? "day mode" : "dark mode"}
-              width="30px"
-              height="30px"
-            />
-          </Button>
+          <ThemeButton/>
         </motion.li>
       </motion.ul>
     </nav>

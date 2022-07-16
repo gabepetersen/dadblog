@@ -3,24 +3,15 @@ import Head from 'next/head';
 
 // component imports
 import Navbar from './navbar';
-import { useThemeController } from './theme-provider';
 
 // style imports
 import styles from './layout.module.scss';
-import dark from '../styles/dark.module.scss';
-import light from '../styles/light.module.scss';
-
-const name = 'Blog Master';
 
 export const siteTitle = 'Mutual Threads'
 
 export default function Layout({ children, home }: { children: React.ReactNode, home?: boolean }) {
-
-  // get the theme state and function to change it
-  const [theme] = useThemeController();
-
   return (
-    <div className={`${styles.container} ${theme == 'dark' ? dark.theme : light.theme}`} id="light">
+    <div className={`${styles.container}`}>
       {/* Head tag for meta stuff */}
       <Head>
         <link rel="icon" href="/favicon.ico" />

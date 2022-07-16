@@ -1,5 +1,4 @@
-import '../styles/global.scss';
-import '../styles/base.scss';
+import '../styles/styles.scss';
 import { AppProps } from 'next/app';
 import { motion, AnimatePresence } from 'framer-motion';
 

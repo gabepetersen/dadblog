@@ -1,0 +1,13 @@
+// font declarations
+@font-face {
+  font-family: "Sarabun-Regular";
+  src: local("Sarabun-Regular"),
+    url("../../fonts/Sarabun-Regular.ttf") format("truetype");
+  font-weight: normal;
+}
+@font-face {
+  font-family: "PlayfairDisplay-Regular";
+  src: local("PlayfairDisplay-Regular"),
+    url("../../fonts/static/PlayfairDisplay-Regular.ttf") format("truetype");
+  font-weight: normal;
+}

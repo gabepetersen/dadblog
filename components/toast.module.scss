@@ -1,4 +1,4 @@
-@import '../styles/global.scss';
+@use '../styles/abstracts/variables' as *;
 
 .toast_container {
   position: fixed;

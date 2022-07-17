@@ -46,7 +46,7 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       allPostsData
     },
-    // will revalidate changes every 5 seconds
-    revalidate: 3
+    // will revalidate changes every 10 seconds
+    revalidate: 10
   }
 }

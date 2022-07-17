@@ -1,7 +1,8 @@
 import Head from 'next/head';
-import { GetServerSideProps } from 'next'
+import { useRouter } from 'next/router'
+import { GetStaticProps } from 'next';
 import Layout from '../../components/layout';
-import { getPostData } from '../../lib/posts.service';
+import { getPostData, getSortedPostsData } from '../../lib/posts.service';
 import CustomDate from '../../components/custom-date';
 import utilStyles from '../../styles/utils.module.scss';
 
@@ -9,6 +10,11 @@ import utilStyles from '../../styles/utils.module.scss';
 export default function Post({ postData }:
   { postData: { title: string, date: number, author: string, content: string } }
 ) {
+  const router = useRouter()
+  if (router.isFallback) {
+    return <div>Loading the post...</div>
+  }
+
   return (
     <Layout>
       <Head>
@@ -30,7 +36,7 @@ export default function Post({ postData }:
  * BIG NOTE: getStaticPaths and getStaticProps ONLYYY runs when the pages are BUILDING
  * so don't put like client fetches in these functions - only write server side code
  */
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   let postData;
   try {
     postData = await getPostData(context.params.id as string);
@@ -42,6 +48,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       postData
-    }
+    },
+    // will revalidate changes every 10 seconds
+    revalidate: 10
   };
+}
+
+export async function getStaticPaths() {
+  // get all the Post Datas
+  const allPostsData = await getSortedPostsData();
+  const allPaths = allPostsData.map((postData) => {
+    return '/posts/' + postData.pageKey;
+  })
+
+  return {
+    paths: allPaths,
+    fallback: true
+  }
 }

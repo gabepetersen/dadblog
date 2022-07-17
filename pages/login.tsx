@@ -93,7 +93,7 @@ export default function Login() {
         <div className={styles.login}>
           <h2>Login</h2>
           <form onSubmit={handleLogin} ref={form => loginForm = form}>
-            <label htmlFor="loginEmail">Email</label><br />
+            <label htmlFor="loginEmail">Email</label>
             <input
               type="text"
               id="loginEmail"
@@ -101,8 +101,7 @@ export default function Login() {
               {...emailLogin}
               autoComplete="on"
             />
-            <br />
-            <label htmlFor="loginPass">Password</label><br />
+            <label htmlFor="loginPass">Password</label>
             <input
               type="password"
               id="loginPass"
@@ -110,7 +109,6 @@ export default function Login() {
               {...passwordLogin}
               autoComplete="on"
             />
-            <br />
             <input type="submit" value="Submit" />
           </form>
         </div>
@@ -118,8 +116,9 @@ export default function Login() {
         {/* Signup Portion */}   
         <div className={styles.signup}>
           <h2>Signup</h2>
+          <p>The main purpose of signing up <em>for now</em> is to apply to write on the platform. The name will be used as your author title, and might be used to refer to you if I decide to add comments in the future.</p>
           <form onSubmit={handleSignup} ref={form => signupForm = form}>
-            <label htmlFor="name">Name</label><br />
+            <label htmlFor="name">Name</label>
             <input
               type="text"
               id="name"
@@ -127,8 +126,7 @@ export default function Login() {
               {...nameSignup}
               autoComplete="on"
             />
-            <br />
-            <label htmlFor="signupEmail">Email</label><br />
+            <label htmlFor="signupEmail">Email</label>
             <input
               type="text"
               id="signupEmail"
@@ -136,8 +134,7 @@ export default function Login() {
               {...emailSignup}
               autoComplete="on"
             />
-            <br />
-            <label htmlFor="signupPass1">Password</label><br />
+            <label htmlFor="signupPass1">Password</label>
             <input
               type="password"
               id="signupPass1"
@@ -145,8 +142,7 @@ export default function Login() {
               {...password1Signup}
               autoComplete="on"
             />
-            <br />
-            <label htmlFor="signupPass2">Password Again</label><br />
+            <label htmlFor="signupPass2">Password Again</label>
             <input
               type="password"
               id="signupPass2"
@@ -154,7 +150,6 @@ export default function Login() {
               {...password2Signup}
               autoComplete="on"
             />
-            <br />
             <input type="submit" value="Submit" />
           </form>
         </div>

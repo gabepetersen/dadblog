@@ -14,12 +14,11 @@ export default function Layout({ children, home }: { children: React.ReactNode, 
     <div className={`${styles.container}`}>
       {/* Head tag for meta stuff */}
       <Head>
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="description" content="Learn how to build a personal website using Next.js"/>
-        <meta property="og:image" content={`https://og-image.now.sh/${encodeURI(
-            siteTitle
-          )}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`}
-        />
+        <link rel="icon" href="/favicon/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+        <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg"/>
+        <link rel="icon" type="image/png" href="/favicon/favicon.png"/>
+        <meta name="description" content="Mutual Threads is a work-in-progress community where people can share what they learn and relate to each other in writing."/>
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>

@@ -1,6 +1,5 @@
 import Blog from '../server/db-schemas/blog';
 import { connectDB, disconnectDB, getFirestoreInstance } from '../server/server.service';
-import { Client, ClientErrorCode, APIErrorCode } from '@notionhq/client';
 
 /**
  * Returns an array of all the blog post data from MongoDB
@@ -28,63 +27,6 @@ export async function getSortedPostsData() {
   } catch (err) {
     console.error('\nCould not fetch blog posts from DB: ', err, '\n');
     return {};
-  }
-}
-
-/**
- * Returns an object with blog post data and the content from Notion
- * @param id
- * @returns Object
- */
-export async function getPostDataNotion(id: string) {
-  if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config();
-  }
-
-  try {
-    const notion = new Client({ auth: process.env.NOTION_DB_KEY })
-    const databaseId = process.env.NOTION_POST_TABLE_ID;
-
-    const response = await notion.databases.query({
-      database_id: databaseId,
-      filter: {
-        property: 'pageKey',
-        rich_text: {
-          equals: id
-        }
-      }
-    });
-    
-    const pageID = response.results[0].id;
-    // Fix later: refactor to remove this ts-ignore for broken notion types
-    // @ts-ignore
-    const pageProperties = response.results[0].properties;
-
-    return {
-      id: pageID,
-      pageKey: pageProperties.pageKey.rich_text[0].plain_text,
-      title: pageProperties.title.title[0].plain_text,
-      date: pageProperties.date.rich_text[0].plain_text,
-      author: pageProperties.author.rich_text[0].plain_text,
-      contentHTML: pageProperties.content.rich_text[0].plain_text
-    }
-  } catch (err) {
-    var message = '';
-    switch (err.code) {
-      case ClientErrorCode.RequestTimeout:
-        message = 'Timed out connecting to notion DB: '
-        break
-      case APIErrorCode.ObjectNotFound:
-        message = 'Could not find notion DB page: ';
-        break
-      case APIErrorCode.Unauthorized:
-        message = 'Unauthorized access to notion DB: ';
-        break;
-      default:
-        message = 'Error connecting to notion instance: ';
-    }
-    console.error(message, err.name, err.message, err.cause);
-    return null;
   }
 }
 

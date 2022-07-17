@@ -1,9 +1,10 @@
-import { connectDB, disconnectDB } from './server.service';
+import { connectDB, disconnectDB, getFirestoreInstance } from './server.service';
 import Blog from './db-schemas/blog';
 import User from './db-schemas/user';
 import { Client, ClientErrorCode, APIErrorCode } from '@notionhq/client';
 import showdown from 'showdown';
 import { MongoBlogPost } from '../lib/types';
+import { WriteResult } from 'firebase-admin/firestore';
 
 /**
  * Creates a blog object from the db schema and puts it on the database
@@ -139,4 +140,37 @@ export async function createBlogOnNotion(text: string, author: string, title: st
       reject({ text: (message + err.name + '-' + err.message + ': { ' + err.cause + '}'), code: 400 });
     }
   });
+}
+
+/**
+ * Uploads the blog content to the Notion DB
+ * @param text
+ * @param author
+ * @param title
+ * @param blogID
+ * @returns Promise<any>
+ */
+export async function createBlogOnFirestore(text: string, author: string, title: string, blogID: string): Promise<WriteResult> {
+  const firestore = await getFirestoreInstance();
+
+  const pageKey = title.toLowerCase().replace(/ /g, '-');
+  const docRef = firestore.doc(`blogs/${pageKey}`);
+  const date = Date.now() + '';
+
+  // Refer to https://www.npmjs.com/package/showdown for options list
+  const mkConverter = new showdown.Converter({
+    ghCompatibleHeaderId: true,
+    parseImgDimensions: true,
+    simplifiedAutoLink: true,
+    excludeTrailingPunctuationFromURLs: true,
+    literalMidWordAsterisks: true,
+    strikethrough: true,
+    tasklists: true,
+    simpleLineBreaks: true,
+    requireSpaceBeforeHeadingText: true,
+    emoji: true // refer to https://github.com/showdownjs/showdown/wiki/Emojis
+  });
+  const content = mkConverter.makeHtml(text);
+
+  return docRef.create({ author, blogID, content, date, title });
 }

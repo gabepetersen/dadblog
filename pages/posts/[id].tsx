@@ -7,7 +7,7 @@ import utilStyles from '../../styles/utils.module.scss';
 
 // add types
 export default function Post({ postData }:
-  { postData: { title: string, date: number, author: string, contentHTML: string } }
+  { postData: { title: string, date: number, author: string, content: string } }
 ) {
   return (
     <Layout>
@@ -20,7 +20,7 @@ export default function Post({ postData }:
           <CustomDate ms={postData.date} />
           <p>By {postData.author}</p>
         </div>
-        <div dangerouslySetInnerHTML={{ __html: postData.contentHTML }}></div>
+        <div dangerouslySetInnerHTML={{ __html: postData.content }}></div>
       </section>
     </Layout>
   );

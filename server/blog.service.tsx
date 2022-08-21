@@ -49,7 +49,7 @@ export async function createBlogOnDB(author: string, authorID: string, title: st
           if (user) {
             // update the user's writtenBlog's list
             const newWrittenBlogs = user.writtenBlogs;
-            newWrittenBlogs.push(blog.blogID);
+            newWrittenBlogs.push(blog.pageKey);
             await User.findOneAndUpdate(filter, { writtenBlogs: newWrittenBlogs });
             console.log('Blog Successfully Uploaded to Database');
             disconnectDB();
@@ -77,7 +77,7 @@ export async function createBlogOnDB(author: string, authorID: string, title: st
  * @param blogID
  * @returns Promise<any>
  */
-export async function createBlogOnFirestore(text: string, author: string, title: string, blogID: string): Promise<WriteResult> {
+export async function createBlogOnFirestore(text: string, author: string, authorID: string, title: string, blogID: string): Promise<WriteResult> {
   const firestore = await getFirestoreInstance();
 
   const pageKey = title.toLowerCase().replace(/ /g, '-');
@@ -99,5 +99,8 @@ export async function createBlogOnFirestore(text: string, author: string, title:
   });
   const content = mkConverter.makeHtml(text);
 
-  return docRef.create({ author, blogID, content, date, title });
+  return docRef.create({
+    author, authorID, blogID, comments: [], content,
+    date, hidden: false, pageKey, stars: [], title
+  });
 }

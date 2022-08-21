@@ -1,3 +1,4 @@
+import User from '../server/db-schemas/user';
 import Blog from '../server/db-schemas/blog';
 import { connectDB, disconnectDB, getFirestoreInstance } from '../server/server.service';
 
@@ -5,32 +6,19 @@ import { connectDB, disconnectDB, getFirestoreInstance } from '../server/server.
  * Returns an array of all the blog post data from MongoDB
  * @returns Promise<Array>
  */
-export async function getSortedPostsData() {
+export async function getSortedPostsData() : Promise<FirebaseFirestore.DocumentData[]>  {
   try {
-    // connect to the database
-    await connectDB();
-
-    const allPostsData = await Blog.find({}, { _id: 0 }).lean();
-    disconnectDB();
-    // sort posts by date - and convert the date to be serialized properly
-    return allPostsData.map((post) => {
-      var postNew = post;
-      postNew.date = post.date.getTime();
-      return postNew;
-    }).sort((a, b) => {
-      if (a.date < b.date) {
-        return 1;
-      } else {
-        return -1;
-      }
-    });
+    const firestore = await getFirestoreInstance();
+    const blogsSnapshot = await firestore.collection('blogs')
+      .orderBy('date', 'desc').get();
+    return blogsSnapshot.docs.map(doc => doc.data());
   } catch (err) {
-    console.error('\nCould not fetch blog posts from DB: ', err, '\n');
-    return {};
+    console.error('\nCould not fetch blog posts from Firestore: ', err, '\n');
+    return null;
   }
 }
 
-export async function getPostData(id: string) {
+export async function getPostData(id: string) : Promise<FirebaseFirestore.DocumentData> {
   const firestore = await getFirestoreInstance();
 
   const docRef = firestore.doc(`blogs/${id}`);

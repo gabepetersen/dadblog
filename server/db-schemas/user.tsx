@@ -15,6 +15,11 @@ var userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  pageKey: {
+    type: String,
+    required: true,
+    unique: true
+  },
   email: {
     type: String,
     unique: true,

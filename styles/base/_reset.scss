@@ -1,12 +1,14 @@
 @use '../abstracts/variables' as *;
 
 html {
+  font-size: 62.5%; // 1rem = 10px
   height: 100%;
 }
 
 body {
   margin: 0 auto;
   height: 100%;
+  font-size: $font-size__base;
 
   &,
   &[data-theme="light"] {
@@ -14,7 +16,7 @@ body {
     --color-text: #{$theme-black};
     --color-subtext: #{$theme-gray};
     --color-shadow: #{$theme-lightgray};
-    --color-primary-accent: #{$theme-green-1};
+    --color-primary-accent: #{$theme-green-3};
     --color-secondary-accent: #{$theme-yellow};
   }
 
@@ -23,7 +25,25 @@ body {
     --color-text: #{$theme-white};
     --color-subtext: #{$theme-lightgray};
     --color-shadow: #{$theme-gray};
-    --color-primary-accent: #{$theme-green-1};
-    --color-secondary-accent: #{$theme-gold};
+    --color-primary-accent: #{$theme-gold};
+    --color-secondary-accent: #{$theme-green-1};
   }
+}
+
+a {
+  &:link,
+  &:visited,
+  &:hover,
+  &:focus,
+  &:active {
+    color: var(--color-primary-accent);
+  }
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+
+  color: var(--color-primary-accent);
+  text-decoration: none;
 }

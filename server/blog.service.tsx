@@ -1,83 +1,44 @@
 import { connectDB, disconnectDB, getFirestoreInstance } from './server.service';
-import Blog from './db-schemas/blog';
 import User from './db-schemas/user';
 import showdown from 'showdown';
-import { MongoBlogPost } from '../lib/types';
 import { WriteResult } from 'firebase-admin/firestore';
 
 /**
- * Creates a blog object from the db schema and puts it on the database
- * @description NOTE: updates the author's writtenBlog's array on the database too
- * @param author 
+ * Adds a blog to a user's writtenBlog list
  * @param authorID 
  * @param title 
  * @returns Promise<any>
  */
-export async function createBlogOnDB(author: string, authorID: string, title: string, blogID: string): Promise<any> {
-  return new Promise<any>(async (resolve, reject) => {
-    // connect to the database
-    try {
-      await connectDB();
-    } catch (err) {
-      console.error(`Error Connecting to Database: ${err}`);
-      reject({ text: `Error Connecting to Database: ${err}`, code: 400 });
+export async function addBlogToUserData(authorID: string, title: string) {
+  try {
+    await connectDB();
+    const userFilter = { _id: authorID }
+    let user = await User.findOne(userFilter);
+    if (user) {
+      // update the user's writtenBlog's list
+      const pageKey = title.toLowerCase().replace(/ /g, '-');
+      const newWrittenBlogs = user.writtenBlogs;
+      newWrittenBlogs.push(pageKey);
+      await User.findOneAndUpdate(userFilter, { writtenBlogs: newWrittenBlogs });
+    } else {
+      throw new Error("User does not exist - cannot add to writtenBlogs");
     }
-
-    // create new instance of blog and fill out all the fields
-    var newBlog = new Blog();
-    newBlog.author = author;
-    newBlog.authorID = authorID;
-    newBlog.blogID = blogID;
-    newBlog.comments = [];
-    newBlog.date = Date.now();
-    newBlog.hidden = false;
-    newBlog.pageKey = title.toLowerCase().replace(/ /g, '-'); // To do - make sure this is not already a title
-    newBlog.stars = [];
-    newBlog.title = title;
-
-    // save the blog to db
-    newBlog.save(async function (err: Error, blog: MongoBlogPost) {
-      if (err) {
-        console.error(`Error Saving Blog to Database: ${err}`);
-        reject({ text: `Error Saving Blog to Database: ${err}`, code: 400 });
-        disconnectDB();
-      } else {
-        try {
-          // get the writer user db object
-          const filter = { _id: authorID };
-          let user = await User.findOne(filter);
-          if (user) {
-            // update the user's writtenBlog's list
-            const newWrittenBlogs = user.writtenBlogs;
-            newWrittenBlogs.push(blog.blogID);
-            await User.findOneAndUpdate(filter, { writtenBlogs: newWrittenBlogs });
-            console.log('Blog Successfully Uploaded to Database');
-            disconnectDB();
-            resolve({ text: 'Successfully Uploaded to Database', code: 201 });
-          } else {
-            disconnectDB();
-            reject({ text: 'User Not Found', code: 404 });
-          }
-        } catch (err) {
-          console.log('Error Uploading to DB: ', err);
-          disconnectDB();
-          reject({ text: `Error Uploading to DB: ${err}`, code: 400 });
-        }   
-      }
-    });
-  })
-  
+    disconnectDB();
+  } catch (err) {
+    throw new Error("Error trying to update user's written blogs: ", { cause: err });
+  }
 }
 
 /**
  * Uploads the blog content to Firestore
  * @param text
  * @param author
+ * @param authorID
  * @param title
  * @param blogID
- * @returns Promise<any>
+ * @returns Promise<WriteResult>
  */
-export async function createBlogOnFirestore(text: string, author: string, title: string, blogID: string): Promise<WriteResult> {
+export async function createBlogOnFirestore(text: string, author: string, authorID: string, title: string, blogID: string): Promise<WriteResult> {
   const firestore = await getFirestoreInstance();
 
   const pageKey = title.toLowerCase().replace(/ /g, '-');
@@ -99,5 +60,8 @@ export async function createBlogOnFirestore(text: string, author: string, title:
   });
   const content = mkConverter.makeHtml(text);
 
-  return docRef.create({ author, blogID, content, date, title });
+  return docRef.create({
+    author, authorID, blogID, comments: [], content,
+    date, hidden: false, pageKey, stars: [], title
+  });
 }

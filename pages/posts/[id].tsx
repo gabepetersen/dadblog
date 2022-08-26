@@ -4,7 +4,6 @@ import { GetStaticProps } from 'next';
 import Layout from '../../components/layout';
 import { getPostData, getSortedPostsData } from '../../lib/posts.service';
 import CustomDate from '../../components/custom-date';
-import utilStyles from '../../styles/utils.module.scss';
 
 // add types
 export default function Post({ postData }:
@@ -20,9 +19,9 @@ export default function Post({ postData }:
       <Head>
         <title>{postData.title}</title>
       </Head>
-      <section>
-        <h1 className={utilStyles.headingXl}>{postData.title}</h1>
-        <div className={utilStyles.lightText}>
+      <section className="posts">
+        <h1 className="headingXl">{postData.title}</h1>
+        <div className="lightText">
           <CustomDate ms={postData.date} />
           <p>By {postData.author}</p>
         </div>

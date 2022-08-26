@@ -1,36 +1,44 @@
-import Blog from '../server/db-schemas/blog';
-import { connectDB, disconnectDB, getFirestoreInstance } from '../server/server.service';
+import { getFirestoreInstance } from '../server/server.service';
 
 /**
- * Returns an array of all the blog post data from MongoDB
- * @returns Promise<Array>
+ * Retrieves an array of all the blog post data from Firestore
+ * @returns Promise<FirebaseFirestore.DocumentData[]>
  */
-export async function getSortedPostsData() {
+export async function getSortedPostsData() : Promise<FirebaseFirestore.DocumentData[]>  {
   try {
-    // connect to the database
-    await connectDB();
-
-    const allPostsData = await Blog.find({}, { _id: 0 }).lean();
-    disconnectDB();
-    // sort posts by date - and convert the date to be serialized properly
-    return allPostsData.map((post) => {
-      var postNew = post;
-      postNew.date = post.date.getTime();
-      return postNew;
-    }).sort((a, b) => {
-      if (a.date < b.date) {
-        return 1;
-      } else {
-        return -1;
-      }
-    });
+    const firestore = await getFirestoreInstance();
+    const blogsSnapshot = await firestore.collection('blogs')
+      .orderBy('date', 'desc').get();
+    return blogsSnapshot.docs.map(doc => doc.data());
   } catch (err) {
-    console.error('\nCould not fetch blog posts from DB: ', err, '\n');
-    return {};
+    console.error('\nCould not fetch blog posts from Firestore: ', err, '\n');
+    return null;
   }
 }
 
-export async function getPostData(id: string) {
+/**
+ * Retrieves the most recent posts from the DB
+ * @param postLimit - Specifies how many posts are retrieved
+ * @returns Promise<FirebaseFirestore.DocumentData[]>
+ */
+export async function getRecentPosts(postLimit = 6): Promise<FirebaseFirestore.DocumentData[]> {
+  try {
+    const firestore = await getFirestoreInstance();
+    const blogsSnapshot = await firestore.collection('blogs')
+      .orderBy('date', 'desc').limit(postLimit).get();
+    return blogsSnapshot.docs.map(doc => doc.data());
+  } catch (err) {
+    console.error('\nCould not fetch blog posts from Firestore: ', err, '\n');
+    return null;
+  }
+}
+
+/**
+ * Retrieves one post from Firestore
+ * @param id - the blog pageKey id
+ * @returns Promise<FirebaseFirestore.DocumentData> 
+ */
+export async function getPostData(id: string) : Promise<FirebaseFirestore.DocumentData> {
   const firestore = await getFirestoreInstance();
 
   const docRef = firestore.doc(`blogs/${id}`);
@@ -42,5 +50,24 @@ export async function getPostData(id: string) {
     throw new Error('Cannot connect to firestore instance');
   } else {
     throw new Error('Document does not exist on firestore')
+  }
+}
+
+/**
+ * Retrieves all posts that an author has written
+ * @param authorID - The mongoDB generated User ID that points to the blog author
+ * @returns Promise<FirebaseFirestore.DocumentData[]>
+ */
+export async function getPostsByAuthorID(authorID: string) : Promise<FirebaseFirestore.DocumentData[]> {
+  try {
+    const firestore = await getFirestoreInstance();
+
+    const blogsSnapshot = await firestore.collection('blogs')
+      .where('authorID', '==', authorID)
+      .orderBy('date', 'desc').get();
+    return blogsSnapshot.docs.map(doc => doc.data());
+  } catch (err) {
+    console.error('\nCould not fetch blog posts from DB: ', err, '\n');
+    return null;
   }
 }

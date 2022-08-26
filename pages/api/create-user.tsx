@@ -22,6 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     newUser.email = email;
     newUser.confirmed = false;
     newUser.name = name;
+    newUser.pageKey = name.toLowerCase().replace(/ /g, '-'); // To do - make sure this is not already an author
     newUser.role = 'user';
     newUser.date = Date.now();
     newUser.writtenBlogs = [];

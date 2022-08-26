@@ -32,3 +32,25 @@ export async function getPostData(id: string) : Promise<FirebaseFirestore.Docume
     throw new Error('Document does not exist on firestore')
   }
 }
+
+export async function getPostsByAuthor(authorPageKey: string) : Promise<FirebaseFirestore.DocumentData[]> {
+  try {
+    // connect to the database
+    await connectDB();
+    const firestore = await getFirestoreInstance();
+
+    // seperate queries so we don't directly associate username with the blog
+    // this way we can use the authorID to associate with the blog since it won't change
+    const userData = await User.find({ pageKey: authorPageKey });
+    disconnectDB();
+    const userid = userData[0]._id.toHexString();
+
+    const blogsSnapshot = await firestore.collection('blogs')
+      .where('authorID', '==', userid)
+      .orderBy('date', 'desc').get();
+    return blogsSnapshot.docs.map(doc => doc.data());
+  } catch (err) {
+    console.error('\nCould not fetch blog posts from DB: ', err, '\n');
+    return null;
+  }
+}

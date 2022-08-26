@@ -3,10 +3,11 @@ import Head from 'next/head';
 import { useRouter } from 'next/router'
 import Link from 'next/link';
 import Layout from '../../components/layout';
-import { getSortedPostsData, getPostsByAuthorID } from '../../lib/posts.service';
+import { getPostsByAuthorID } from '../../lib/posts.service';
 import CustomDate from '../../components/custom-date';
 import { MongoBlogPost } from '../../lib/types';
 import { getUserByPageKey } from '../../lib/user.services';
+import { getAuthors } from '../../lib/user.services';
 
 // add types
 export default function Author({ author, authorPostsData }:
@@ -68,9 +69,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 export async function getStaticPaths() {
   // get all the Post Datas
-  const authorPostsData = await getSortedPostsData();
-  const allPaths = authorPostsData.map((postData) => {
-    return '/authors/' + postData.author;
+  const allAuthors = await getAuthors();
+  const allPaths = allAuthors.map((authorData) => {
+    return '/authors/' + authorData.pageKey;
   });
 
   return {

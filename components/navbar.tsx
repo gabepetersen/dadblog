@@ -21,17 +21,21 @@ export default function Navbar({ home }: { home: boolean }) {
         animate="animate"
         variants={nav_list}
       >
-        <motion.li className={`${utilStyles.heading2Xl} ${styles.menu_title}`}
-          variants={nav_item}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <Link href="/">
-          <a>
-              {siteTitle}
-          </a>
-          </Link>
-        </motion.li>
+        
+        {home ? (
+          <li>
+            <h1>{siteTitle}</h1>
+          </li>
+        ) : (
+          <motion.li className={`${utilStyles.heading2Xl} ${styles.menu_title}`}
+            variants={nav_item}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <Link href="/">{siteTitle}</Link>
+          </motion.li>
+        )}
+        
         <WriteControl></WriteControl>
         <motion.li variants={nav_item}>
           <LoginControl></LoginControl>

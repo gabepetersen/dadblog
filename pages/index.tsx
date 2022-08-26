@@ -43,7 +43,7 @@ export default function Home({ allPostsData, sortedAuthors } : { allPostsData: M
               </Link>
               <br />
               <small>
-                {writtenBlogs.length} Written Posts
+                {writtenBlogs.length} Post{( writtenBlogs.length > 1 ? 's' : '' )}
               </small>
             </li>
           ))}

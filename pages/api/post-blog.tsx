@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { createBlogOnFirestore } from '../../server/blog.service';
+import { addBlogToUserData, createBlogOnFirestore } from '../../server/blog.service';
 import { v4 as uuidv4 } from 'uuid';
 import User from '../../server/db-schemas/user';
 
@@ -16,13 +16,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
   const blogID = uuidv4();
 
-  try {
-    await createBlogOnFirestore(text, userData.name, userData._id, title, blogID);
-  } catch (err) {
+  // Promise all on uploading to file server and database
+  Promise.all([
+    addBlogToUserData(userData._id, title),
+    createBlogOnFirestore(text, userData.name, userData._id, title, blogID)
+  ]).then((results) => {
+    res.status(201).json({ text: 'Successfully Uploaded to both instances', code: 1 });
+  }).catch((err) => {
     console.error(`Error in uploading the Blog: ${err}`);
     res.status(400).json({ text: `Error in uploading the Blog: ${err}`, code: 0 });
-    return;
-  }
-  res.status(201).json({ text: 'Successfully Uploaded', code: 1 });
+  });
 }
 

@@ -16,24 +16,23 @@ export default function Home({ recentPostsData, sortedAuthors } : { recentPostsD
         <title>{siteTitle}</title>
       </Head>
 
-      <section className="headingMd padding1px">
-        <h2 className="headingLg">Recent Posts</h2>
-        <ul className="list">
+      <section className="posts">
+        <h2 className="headingLg posts__title">Recent Posts</h2>
+        <ul className="list posts__grid">
           {recentPostsData.map(({ blogID, pageKey, date, title, author, hidden }) => !hidden ? (
             <li className="listItem" key={parseInt(blogID)}>
               <Link href={`/posts/${pageKey}`}>
-                <a>{title}</a>
+                <a className="posts__grid-item">
+                  <span className="posts__grid-item__title">{title}</span>
+                  <CustomDate ms={date} />
+                </a>
               </Link>
-              <br />
-              <small>
-                <CustomDate ms={date} />
-              </small>
             </li>
           ) : null )}
         </ul>
       </section>
 
-      <section className="headingMd padding1px">
+      <section className="posts">
         <h2 className="headingLg">Authors</h2>
         <ul className="list">
           {sortedAuthors.map(({ name, pageKey, writtenBlogs }) => (

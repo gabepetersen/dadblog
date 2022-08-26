@@ -3,7 +3,7 @@
 .container {
   max-width: 100%;
   min-height: 100vh;
-  padding: 0 1rem 2rem 1rem;
+  padding: 1rem auto 4rem auto;
   // margin: 3rem auto 6rem auto;
   font-family: PlayfairDisplay-Regular;
   background-color: var(--color-page-background);
@@ -40,19 +40,14 @@
   margin: 3rem 0 0;
 }
 
-/**
- *
- * Media Query Section
- *
- */
-@media #{$tablet} {
-  .main {
-    max-width: 40rem;
+@media #{$large-phone-up} {
+  .container {
+    padding: 0 1rem 2rem 1rem;
   }
 }
 
-@media #{$large-phone} {
-  .container {
-    padding: 1rem auto 4rem auto;
+@media #{$tablet-up} {
+  .main {
+    max-width: 80rem;
   }
 }

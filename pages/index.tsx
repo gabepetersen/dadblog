@@ -4,7 +4,6 @@ import Link from 'next/link';
 
 import Layout, { siteTitle } from '../components/layout';
 import { ToastContainer } from '../components/toast';
-import utilStyles from '../styles/utils.module.scss';
 import { getRecentPosts } from '../lib/posts.service';
 import CustomDate from '../components/custom-date';
 import { MongoBlogPost, User } from '../lib/types';
@@ -17,11 +16,11 @@ export default function Home({ recentPostsData, sortedAuthors } : { recentPostsD
         <title>{siteTitle}</title>
       </Head>
 
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Recent Posts</h2>
-        <ul className={utilStyles.list}>
+      <section className="headingMd padding1px">
+        <h2 className="headingLg">Recent Posts</h2>
+        <ul className="list">
           {recentPostsData.map(({ blogID, pageKey, date, title, author, hidden }) => !hidden ? (
-            <li className={utilStyles.listItem} key={parseInt(blogID)}>
+            <li className="listItem" key={parseInt(blogID)}>
               <Link href={`/posts/${pageKey}`}>
                 <a>{title}</a>
               </Link>
@@ -34,11 +33,11 @@ export default function Home({ recentPostsData, sortedAuthors } : { recentPostsD
         </ul>
       </section>
 
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Authors</h2>
-        <ul className={utilStyles.list}>
+      <section className="headingMd padding1px">
+        <h2 className="headingLg">Authors</h2>
+        <ul className="list">
           {sortedAuthors.map(({ name, pageKey, writtenBlogs }) => (
-            <li className={utilStyles.listItem} key={parseInt(name)}>
+            <li className="listItem" key={parseInt(name)}>
               <Link href={`/authors/${pageKey}`}>
                 <a>{name}</a>
               </Link>

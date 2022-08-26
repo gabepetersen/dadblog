@@ -11,3 +11,42 @@
     url("../../fonts/static/PlayfairDisplay-Regular.ttf") format("truetype");
   font-weight: normal;
 }
+
+// Placeholders -----------------------
+%heading {
+  font-weight: 700;
+  letter-spacing: -0.1rem;
+  margin: 1rem 0;
+  display: block;
+}
+// ------------------------------------
+
+.heading2Xl {
+  @extend %heading;
+  font-size: 5rem;
+  line-height: 1.2;
+}
+
+.headingXl {
+  @extend %heading;
+  font-size: 4rem;
+  line-height: 1.4;
+}
+
+.headingLg {
+  @extend %heading;
+  font-size: 3.2rem;
+  line-height: 1.6;
+}
+
+.headingMd {
+  @extend %heading;
+  font-size: 2.6rem;
+  line-height: 1.6;
+}
+
+.headingSm {
+  @extend %heading;
+  font-size: 2rem;
+  line-height: 1.8;
+}

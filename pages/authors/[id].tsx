@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Layout from '../../components/layout';
 import { getSortedPostsData, getPostsByAuthorID } from '../../lib/posts.service';
 import CustomDate from '../../components/custom-date';
-import utilStyles from '../../styles/utils.module.scss';
 import { MongoBlogPost } from '../../lib/types';
 import { getUserByPageKey } from '../../lib/user.services';
 
@@ -24,11 +23,11 @@ export default function Author({ author, authorPostsData }:
         <title>{author}</title>
       </Head>
 
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h1 className={utilStyles.headingLg}>{author}</h1>
-        <ul className={utilStyles.list}>
+      <section className="headingMd padding1px">
+        <h1 className="headingLg">{author}</h1>
+        <ul className="list">
           {authorPostsData.map(({ blogID, pageKey, date, title, author, hidden }) => !hidden ? (
-            <li className={utilStyles.listItem} key={parseInt(blogID)}>
+            <li className="listItem" key={parseInt(blogID)}>
               <Link href={`/posts/${pageKey}`}>
                 <a>{title}</a>
               </Link>

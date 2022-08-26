@@ -13,6 +13,7 @@ export interface MongoBlogPost {
 export interface User {
   role: string,
   name: string,
+  pageKey: string,
   email: string,
   confirmed: Boolean,
   date: Date,

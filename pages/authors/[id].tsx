@@ -23,18 +23,17 @@ export default function Author({ author, authorPostsData }:
         <title>{author}</title>
       </Head>
 
-      <section className="headingMd padding1px">
+      <section className="posts">
         <h1 className="headingLg">{author}</h1>
-        <ul className="list">
+        <ul className="list posts__grid">
           {authorPostsData.map(({ blogID, pageKey, date, title, author, hidden }) => !hidden ? (
             <li className="listItem" key={parseInt(blogID)}>
               <Link href={`/posts/${pageKey}`}>
-                <a>{title}</a>
+                <a className="posts__grid-item">
+                  <span className="posts__grid-item__title">{title}</span>
+                  <CustomDate ms={date} />
+                </a>
               </Link>
-              <br />
-              <small>
-                <CustomDate ms={date} />
-              </small>
             </li>
           ) : null )}
         </ul>

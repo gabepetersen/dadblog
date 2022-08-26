@@ -19,7 +19,7 @@ export default function Post({ postData }:
       <Head>
         <title>{postData.title}</title>
       </Head>
-      <section>
+      <section className="posts">
         <h1 className="headingXl">{postData.title}</h1>
         <div className="lightText">
           <CustomDate ms={postData.date} />

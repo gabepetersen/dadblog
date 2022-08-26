@@ -3,10 +3,11 @@ import Head from 'next/head';
 import { useRouter } from 'next/router'
 import Link from 'next/link';
 import Layout from '../../components/layout';
-import { getSortedPostsData, getPostsByAuthor } from '../../lib/posts.service';
+import { getSortedPostsData, getPostsByAuthorID } from '../../lib/posts.service';
 import CustomDate from '../../components/custom-date';
 import utilStyles from '../../styles/utils.module.scss';
 import { MongoBlogPost } from '../../lib/types';
+import { getUserByPageKey } from '../../lib/user.services';
 
 // add types
 export default function Author({ author, authorPostsData }:
@@ -33,7 +34,7 @@ export default function Author({ author, authorPostsData }:
               </Link>
               <br />
               <small>
-                {author}&nbsp;&nbsp;/&nbsp;&nbsp;<CustomDate ms={date} />
+                <CustomDate ms={date} />
               </small>
             </li>
           ) : null )}
@@ -45,12 +46,21 @@ export default function Author({ author, authorPostsData }:
 
 // Get static props will get the blog posts on static generation pre-render
 export const getStaticProps: GetStaticProps = async (context) => {
+  // check if user is writer
+  const userData = await getUserByPageKey(context.params.id as string);
+  // we are able to check explicitly here because this is run on the server :)
+  if (userData.role !== 'writer') {
+    return {
+      notFound: true
+    }
+  }
   // get all the Post Datas
-  const authorPostsData = await getPostsByAuthor(context.params.id as string);
+  const userid = userData._id.toHexString();
+  const authorPostsData = await getPostsByAuthorID(userid);
 
   return {
     props: {
-      author: context.params.id,
+      author: userData.name,
       authorPostsData
     },
     // will revalidate changes every 10 seconds

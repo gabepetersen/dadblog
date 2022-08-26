@@ -1,6 +1,4 @@
-import User from '../server/db-schemas/user';
-import Blog from '../server/db-schemas/blog';
-import { connectDB, disconnectDB, getFirestoreInstance } from '../server/server.service';
+import { getFirestoreInstance } from '../server/server.service';
 
 /**
  * Returns an array of all the blog post data from MongoDB
@@ -33,20 +31,12 @@ export async function getPostData(id: string) : Promise<FirebaseFirestore.Docume
   }
 }
 
-export async function getPostsByAuthor(authorPageKey: string) : Promise<FirebaseFirestore.DocumentData[]> {
+export async function getPostsByAuthorID(authorID: string) : Promise<FirebaseFirestore.DocumentData[]> {
   try {
-    // connect to the database
-    await connectDB();
     const firestore = await getFirestoreInstance();
 
-    // seperate queries so we don't directly associate username with the blog
-    // this way we can use the authorID to associate with the blog since it won't change
-    const userData = await User.find({ pageKey: authorPageKey });
-    disconnectDB();
-    const userid = userData[0]._id.toHexString();
-
     const blogsSnapshot = await firestore.collection('blogs')
-      .where('authorID', '==', userid)
+      .where('authorID', '==', authorID)
       .orderBy('date', 'desc').get();
     return blogsSnapshot.docs.map(doc => doc.data());
   } catch (err) {

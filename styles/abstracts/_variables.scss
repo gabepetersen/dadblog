@@ -27,3 +27,13 @@ $tablet-up: "screen and (min-width: 1100px)";
 // Text stuff
 $font-size__base: 1.8rem;
 $font-size__large: 2.2rem;
+
+// Layout
+$container__max-width--small: 540px;
+$container__max-width--medium: 680px;
+$container__max-width--large: 840px;
+$container__max-width--xlarge: 1120px;
+$container__max-width--xxlarge: 1280px;
+
+$post__max-width: $container__max-width--medium;
+$post__max-width--desktop: $container__max-width--large;

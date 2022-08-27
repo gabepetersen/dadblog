@@ -1,9 +1,6 @@
 @use '../abstracts/variables' as *;
 
 .posts {
-  margin: 20px 15px;
-  padding: 5px;
-
   &__grid {
     display: grid;
     align-items: center;

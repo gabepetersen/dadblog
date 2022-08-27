@@ -1,0 +1,89 @@
+@use '../abstracts/variables' as *;
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 62.5%; // 1rem = 10px
+    height: 100%;
+}
+
+body {
+    margin: 0 auto;
+    height: 100%;
+    font-size: $font-size__base;
+    background-color: var(--color-page-background);
+
+    &,
+    &[data-theme="light"] {
+        --color-page-background: #{$theme-white};
+        --color-text: #{$theme-black};
+        --color-subtext: #{$theme-gray};
+        --color-button-text: #{$theme-white};
+        --color-shadow: #{$theme-lightgray};
+        --color-primary-accent: #{$theme-green-3};
+        --color-secondary-accent: #{$theme-yellow};
+    }
+
+    &[data-theme="dark"] {
+        --color-page-background: #{$theme-black};
+        --color-text: #{$theme-white};
+        --color-subtext: #{$theme-lightgray};
+        --color-button-text: #{$theme-black};
+        --color-shadow: #{$theme-gray};
+        --color-primary-accent: #{$theme-gold};
+        --color-secondary-accent: #{$theme-green-1};
+    }
+}
+
+a {
+    &:link,
+    &:visited,
+    &:hover,
+    &:focus,
+    &:active {
+        color: var(--color-primary-accent);
+    }
+
+    &:hover,
+    &:focus {
+        text-decoration: underline;
+    }
+
+    color: var(--color-primary-accent);
+    text-decoration: none;
+    }
+
+    section {
+    margin: 20px 15px;
+    padding: 5px;
+
+    @media #{$large-phone-up} {
+        .posts {
+        margin: 25px 10px;
+        }
+    }
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-size: 100%;
+    padding: 7px;
+    border: 4px double var(--color-text);
+    border-radius: 10px;
+    background-color: var(--color-page-background);
+    color: var(--color-text);
+}
+
+button,
+input[type="submit"] {
+    padding: 12px;
+    background-color: var(--color-primary-accent);
+    color: var(--color-button-text);
+    border: 2px solid var(--color-subtext);
+}

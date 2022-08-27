@@ -1,0 +1,11 @@
+@use '../abstracts/variables' as *;
+
+.post {
+  max-width: $post__max-width;
+}
+
+@media #{$large-phone-up} {
+  .post {
+    max-width: $post__max-width--desktop;
+  }
+}

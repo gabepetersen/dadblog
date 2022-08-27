@@ -1,0 +1,25 @@
+@use '../abstracts/variables' as *;
+
+.authors {
+    font-size: $font-size__large;
+
+    &__list {
+        padding-left: 40px;
+        list-style-type: author-list;
+    }
+
+    &__list-item {
+        margin: 15px auto 20px;
+
+        p {
+            margin: 10px auto;
+        }
+    }
+}
+
+@counter-style author-list {
+    system: cyclic;
+    symbols: '\27BE';
+    fallback: '\2730';
+    suffix: "  ";
+}

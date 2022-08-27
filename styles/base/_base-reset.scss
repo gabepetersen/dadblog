@@ -9,6 +9,7 @@ body {
   margin: 0 auto;
   height: 100%;
   font-size: $font-size__base;
+  background-color: var(--color-page-background);
 
   &,
   &[data-theme="light"] {

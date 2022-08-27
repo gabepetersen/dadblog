@@ -1,5 +1,6 @@
-@use './base/base-reset' as *;
-@use './base/typography' as *;
-@use './base/utils' as *;
+@use './base/base-reset';
+@use './base/typography';
+@use './base/utils';
 
-@use './components/posts' as *;
+@use './components/authors';
+@use './components/posts';

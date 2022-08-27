@@ -41,7 +41,9 @@ export async function addBlogToUserData(authorID: string, title: string) {
 export async function createBlogOnFirestore(text: string, author: string, authorID: string, title: string, blogID: string): Promise<WriteResult> {
   const firestore = await getFirestoreInstance();
 
-  const pageKey = title.toLowerCase().replace(/ /g, '-');
+  // replace anything that is not an alpha-numeric character or a space with nothing
+  const sanitizedTitle = title.replace(/[^a-zA-Z0-9\s]/g, '');
+  const pageKey = sanitizedTitle.toLowerCase().replace(/ /g, '-');
   const docRef = firestore.doc(`blogs/${pageKey}`);
   const date = Date.now() + '';
 

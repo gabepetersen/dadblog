@@ -64,9 +64,9 @@ export default function Create() {
       <ul>
         <li>No adult or hate content.</li>
         <li>Provide warnings for stuff like excessive profanity</li>
-        <li>No special characters in the title.</li>
+        <li>If you add special characters in the title, they will be removed from the post&apos;s URL.</li>
         <li>I would advise against using H1 (# header) tags inside the content since the title is already formatted as an H1.</li>
-        <li>If you don&apos;t like how your post looks - reach out to me.</li>
+        <li>If you don&apos;t like how your post looks or you want to delete it - reach out to me. My hope is to eventually implement draft functionality.</li>
       </ul>
       <form className={styles.blogForm} onSubmit={handleSubmit}>
         <label htmlFor="btitle">Title</label>

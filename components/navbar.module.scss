@@ -3,8 +3,9 @@
 .menu {
   list-style-type: none;
   padding: 0;
-  width: 95%;
+  max-width: 100%;
   margin: 0 auto;
+  padding: 5px 10px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -47,6 +48,6 @@
 
 @media #{$tablet-up} {
   .menu {
-    width: 80%;
+    max-width: $container__max-width--xxlarge;
   }
 }

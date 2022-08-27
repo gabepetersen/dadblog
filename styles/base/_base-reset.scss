@@ -47,3 +47,14 @@ a {
   color: var(--color-primary-accent);
   text-decoration: none;
 }
+
+section {
+  margin: 20px 15px;
+  padding: 5px;
+
+  @media #{$large-phone-up} {
+    .posts {
+      margin: 25px 10px;
+    }
+  }
+}

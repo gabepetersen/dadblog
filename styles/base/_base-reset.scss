@@ -16,6 +16,7 @@ body {
     --color-page-background: #{$theme-white};
     --color-text: #{$theme-black};
     --color-subtext: #{$theme-gray};
+    --color-button-text: #{$theme-white};
     --color-shadow: #{$theme-lightgray};
     --color-primary-accent: #{$theme-green-3};
     --color-secondary-accent: #{$theme-yellow};
@@ -25,6 +26,7 @@ body {
     --color-page-background: #{$theme-black};
     --color-text: #{$theme-white};
     --color-subtext: #{$theme-lightgray};
+    --color-button-text: #{$theme-black};
     --color-shadow: #{$theme-gray};
     --color-primary-accent: #{$theme-gold};
     --color-secondary-accent: #{$theme-green-1};
@@ -58,4 +60,24 @@ section {
       margin: 25px 10px;
     }
   }
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-size: 100%;
+}
+
+input {
+    padding: 7px 7px;
+}
+
+button,
+input[type="submit"] {
+    padding: 12px;
+    background-color: var(--color-primary-accent);
+    color: var(--color-button-text);
+    border: 2px solid var(--color-subtext);
 }

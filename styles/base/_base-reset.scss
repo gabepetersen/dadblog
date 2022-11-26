@@ -52,6 +52,11 @@ a {
         text-decoration: underline;
     }
 
+    &:has(img) {
+        display: flex;
+        justify-content: center;
+    }
+
     color: var(--color-primary-accent);
     text-decoration: none;
     }
@@ -86,4 +91,10 @@ input[type="submit"] {
     background-color: var(--color-primary-accent);
     color: var(--color-button-text);
     border: 2px solid var(--color-subtext);
+}
+
+img {
+    width: 100%;
+    height: auto;
+    max-width: $image-default__max-width
 }

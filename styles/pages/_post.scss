@@ -1,11 +1,12 @@
 @use '../abstracts/variables' as *;
 
 .post {
-  max-width: $post__max-width;
+    max-width: $post__max-width;
+    align-self: center;
 }
 
 @media #{$large-phone-up} {
-  .post {
-    max-width: $post__max-width--desktop;
-  }
+    .post {
+        max-width: $post__max-width--desktop;
+    }
 }

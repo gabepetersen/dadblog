@@ -1,15 +1,83 @@
-// font declarations
+// Sarabun
 @font-face {
-  font-family: "Sarabun-Regular";
-  src: local("Sarabun-Regular"),
-    url("../../fonts/Sarabun-Regular.ttf") format("truetype");
-  font-weight: normal;
+    font-family: 'Sarabun';
+    font-style: normal;
+    font-weight: 400;
+    src: local(''),
+        url('../../fonts/sarabun/sarabun-v13-latin-regular.woff2') format('woff2'),
+        url('../../fonts/sarabun/sarabun-v13-latin-regular.woff') format('woff'),
+        url('../../fonts/sarabun/sarabun-v13-latin-regular.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: "PlayfairDisplay-Regular";
-  src: local("PlayfairDisplay-Regular"),
-    url("../../fonts/static/PlayfairDisplay-Regular.ttf") format("truetype");
-  font-weight: normal;
+    font-family: 'Sarabun';
+    font-style: italic;
+    font-weight: 400;
+    src: local(''),
+        url('../../fonts/sarabun/sarabun-v13-latin-italic.woff2') format('woff2'),
+        url('../../fonts/sarabun/sarabun-v13-latin-italic.woff') format('woff'),
+        url('../../fonts/sarabun/sarabun-v13-latin-italic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Sarabun';
+    font-style: normal;
+    font-weight: 700;
+    src: local(''),
+        url('../../fonts/sarabun/sarabun-v13-latin-700.woff2') format('woff2'),
+        url('../../fonts/sarabun/sarabun-v13-latin-700.woff') format('woff'),
+        url('../../fonts/sarabun/sarabun-v13-latin-700.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Sarabun';
+    font-style: italic;
+    font-weight: 700;
+    src: local(''),
+        url('../../fonts/sarabun/sarabun-v13-latin-700italic.woff2') format('woff2'),
+        url('../../fonts/sarabun/sarabun-v13-latin-700italic.woff') format('woff'),
+        url('../../fonts/sarabun/sarabun-v13-latin-700italic.ttf') format('truetype');
+}
+
+// Playfair Display
+@font-face {
+    font-family: 'PlayfairDisplay';
+    font-style: normal;
+    font-weight: 400;
+    src: local(''),
+        url('../../fonts/playfair/playfair-display-v30-latin-regular.woff2') format('woff2'),
+        url('../../fonts/playfair/playfair-display-v30-latin-regular.woff') format('woff'),
+        url('../../fonts/playfair/playfair-display-v30-latin-regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'PlayfairDisplay';
+    font-style: normal;
+    font-weight: 700;
+    src: local(''),
+        url('../../fonts/playfair/playfair-display-v30-latin-700.woff2') format('woff2'),
+        url('../../fonts/playfair/playfair-display-v30-latin-700.woff') format('woff'),
+        url('../../fonts/playfair/playfair-display-v30-latin-700.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'PlayfairDisplay';
+    font-style: italic;
+    font-weight: 400;
+    src: local(''),
+        url('../../fonts/playfair/playfair-display-v30-latin-italic.woff2') format('woff2'),
+        url('../../fonts/playfair/playfair-display-v30-latin-italic.woff') format('woff'),
+        url('../../fonts/playfair/playfair-display-v30-latin-italic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'PlayfairDisplay';
+    font-style: italic;
+    font-weight: 600;
+    src: local(''),
+        url('../../fonts/playfair/playfair-display-v30-latin-600italic.woff2') format('woff2'),
+        url('../../fonts/playfair/playfair-display-v30-latin-600italic.woff') format('woff'),
+        url('../../fonts/playfair/playfair-display-v30-latin-600italic.ttf') format('truetype');
 }
 
 // Placeholders -----------------------

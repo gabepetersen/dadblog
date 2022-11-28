@@ -58,10 +58,16 @@ a {
     }
 
     color: var(--color-primary-accent);
-    text-decoration: none;
-    }
+    text-decoration: underline dotted;
+    font-weight: 700;
+}
 
-    section {
+p {
+    line-height: 1.5;
+    margin: 1.4em auto;
+}
+
+section {
     margin: 20px 15px;
     padding: 5px;
 

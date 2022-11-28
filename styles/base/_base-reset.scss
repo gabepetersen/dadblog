@@ -52,11 +52,22 @@ a {
         text-decoration: underline;
     }
 
-    color: var(--color-primary-accent);
-    text-decoration: none;
+    &:has(img) {
+        display: flex;
+        justify-content: center;
     }
 
-    section {
+    color: var(--color-primary-accent);
+    text-decoration: underline dotted;
+    font-weight: 700;
+}
+
+p {
+    line-height: 1.5;
+    margin: 1.4em auto;
+}
+
+section {
     margin: 20px 15px;
     padding: 5px;
 
@@ -86,4 +97,10 @@ input[type="submit"] {
     background-color: var(--color-primary-accent);
     color: var(--color-button-text);
     border: 2px solid var(--color-subtext);
+}
+
+img {
+    width: 100%;
+    height: auto;
+    max-width: $image-default__max-width
 }

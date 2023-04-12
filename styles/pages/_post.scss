@@ -3,6 +3,11 @@
 .post {
     max-width: $post__max-width;
     align-self: center;
+
+    img {
+        display: flex;
+        margin: 10px auto;
+    }
 }
 
 @media #{$large-phone-up} {

@@ -15,6 +15,7 @@ body {
     height: 100%;
     font-size: $font-size__base;
     background-color: var(--color-page-background);
+    overflow-wrap: break-word;
 
     &,
     &[data-theme="light"] {
@@ -65,6 +66,19 @@ a {
 p {
     line-height: 1.5;
     margin: 1.4em auto;
+}
+
+code {
+    border-bottom: 1px dashed currentColor;
+}
+
+hr {
+    width: 75%;
+    border-style: dashed;
+    border-top-right-radius: 55%;
+    border-bottom-left-radius: 55%;
+    border-width: 3px;
+    margin: 40px auto;
 }
 
 section {

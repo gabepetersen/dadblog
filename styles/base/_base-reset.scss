@@ -15,7 +15,8 @@ body {
     height: 100%;
     font-size: $font-size__base;
     background-color: var(--color-page-background);
-    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
 
     &,
     &[data-theme="light"] {

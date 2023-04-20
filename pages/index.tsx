@@ -36,15 +36,18 @@ export default function Home({ recentPostsData, sortedAuthors } : { recentPostsD
         <h2 className="headingLg">Authors</h2>
         <ul className="list authors__list">
           {sortedAuthors.map(({ name, pageKey, writtenBlogs }) => (
-            <li className="authors__list-item" key={parseInt(name)}>
-              <Link href={`/authors/${pageKey}`}>
-                <a>{name}</a>
-              </Link>
-              &nbsp;&nbsp;-&nbsp;&nbsp;
-              <span>
-                {writtenBlogs.length} Post{( writtenBlogs.length > 1 ? 's' : '' )}
-              </span>
-            </li>
+            writtenBlogs.length >= 1 ?
+            (
+              <li className="authors__list-item" key={parseInt(name)}>
+                <Link href={`/authors/${pageKey}`}>
+                  <a>{name}</a>
+                </Link>
+                &nbsp;&nbsp;-&nbsp;&nbsp;
+                <span>
+                  {writtenBlogs.length} Post{( writtenBlogs.length > 1 ? 's' : '' )}
+                </span>
+              </li>
+            ) : <></>
           ))}
         </ul>
       </section>

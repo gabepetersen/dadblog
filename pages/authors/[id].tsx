@@ -19,7 +19,7 @@ export default function Author({ author, authorPostsData }:
   }
 
   return (
-    <Layout home>
+    <Layout>
       <Head>
         <title>{author}</title>
       </Head>

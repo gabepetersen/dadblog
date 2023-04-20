@@ -13,9 +13,13 @@ export default function Create() {
   var blogTitle: string = '';
   const router = useRouter();
 
-  async function handleSubmit(event: React.FormEvent) {
+  // todo: fix this event type
+  async function handleSubmit(event: any) {
+    event.nativeEvent.submitter.disabled = true;
     try {
       event.preventDefault();
+      console.log("event", event)
+      debugger;
       const token = getToken();
       if (token) {
         const data = await fetch("/api/post-blog", {
@@ -30,8 +34,10 @@ export default function Create() {
         if (data.code === 0) {
           ToastController.show(`Error Posting Blog ${data.text}`);
         } else {
-          ToastController.show('Succesfully Uploaded Blog');
-          router.push('/');
+          ToastController.show('Succesfully Uploaded Blog - Redirecting back to home');
+          setTimeout(() => {
+            router.push('/')
+          }, 3000);
         }
       } else {
         console.log("Not Logged In!");
@@ -44,7 +50,7 @@ export default function Create() {
     } catch (err) {
       console.error(err); 
     }
-
+    event.nativeEvent.submitter.disabled = false;
   }
   
   function handleTitle(event: any) {

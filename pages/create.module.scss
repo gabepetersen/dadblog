@@ -9,6 +9,11 @@
         margin: 10px auto 15px;
     }
 
+    & input[type="submit"][disabled] {
+        pointer-events: none;
+        filter: grayscale(.8);
+    }
+
     & textarea {
         min-height: 30rem;
     }
